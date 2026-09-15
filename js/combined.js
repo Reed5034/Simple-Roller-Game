@@ -1,37 +1,50 @@
 // ============================================================================
-// COMBINED SYSTEM CONFIGURATION & REGISTRY
+// SYSTEM CONFIGURATION & GLOBAL STATE REGISTRY
 // ============================================================================
 
+const GAME = {
+    state: "MENU", // States: "MENU", "PLAYING", "GAMEOVER", "VICTORY"
+    currentLevel: 1,
+    score: 0,
+    maxLevels: 100
+};
+
+// Optimized unified configuration parameters balancing speed and velocity bounds
 const GAME_CONFIG = {
     gravity: 0.5,
-    moveSpeed: 4,
+    moveSpeed: 4.5,
     jumpForce: -10,
     tileSize: 32, // Resolution mapping for data grid blocks
     playerRadius: 16
 };
 
-// Complete 100-Level structural array generated programmatically
-const GAME_LEVELS = Array.from({ length: 100 }, (_, index) => {
+// ============================================================================
+// 100-LEVEL PROCEDURAL MAP ENGINE
+// ============================================================================
+
+// Complete 100-Level structural array generated programmatically 
+const GAME_LEVELS = Array.from({ length: GAME.maxLevels }, (_, index) => {
     const id = index + 1;
     let pieces = ["start", "flat"];
     
     if (id === 1) {
         pieces.push("flat", "finish");
     } else if (id < 20) {
-        // Early levels: Short distances, single hazards
+        // Early Phase: Short distances, single hazards, simple spacing jumps
         const pool = ["gap", "spikes", "flat"];
         pieces.push(pool[id % pool.length], "flat", "finish");
     } else if (id < 60) {
-        // Mid game: Longer platforming sequences
+        // Mid Phase: Longer platforming sequences / Multi-jump rhythmic segments
         for (let i = 0; i < Math.floor(id / 10) + 2; i++) {
             pieces.push((i % 2 === 0) ? "flat" : ((id + i) % 3 === 0 ? "gap" : "spikes"));
         }
         pieces.push("finish");
     } else {
-        // Late game / Endgame gauntlets
-        for (let i = 0; i < 8; i++) {
-            if (i % 3 === 0) pieces.push("spikes");
-            else if (i % 3 === 1) pieces.push("gap");
+        // Late Phase: Intense obstacle endurance gauntlets / trails
+        for (let i = 0; i < 9; i++) {
+            if (i % 4 === 0) pieces.push("spikes");
+            else if (i % 4 === 1) pieces.push("gap");
+            else if (i % 4 === 2) pieces.push("spikes");
             else pieces.push("flat");
         }
         pieces.push("finish");
@@ -39,13 +52,13 @@ const GAME_LEVELS = Array.from({ length: 100 }, (_, index) => {
 
     return {
         id: id,
-        name: `Level ${id}`,
+        name: `World Run: ${id}/100`,
         pieces: pieces
     };
 });
 
 // ============================================================================
-// IMPROVED CIRCULAR HITBOX ENGINE (js/collide.js Replacement)
+// CIRCULAR HITBOX ENGINE (js/collide.js)
 // ============================================================================
 
 /**
@@ -57,7 +70,7 @@ function checkCircleTileCollision(playerCircle, solidTile) {
     const circleX = playerCircle.x + playerCircle.radius;
     const circleY = playerCircle.y + playerCircle.radius;
 
-    // Isolate the boundary limits of the solid obstacle map cell
+    // Isolate bounding clamp point coordinates along rectangle perimeter
     const closestX = Math.max(solidTile.x, Math.min(circleX, solidTile.x + solidTile.width));
     const closestY = Math.max(solidTile.y, Math.min(circleY, solidTile.y + solidTile.height));
 
@@ -68,12 +81,12 @@ function checkCircleTileCollision(playerCircle, solidTile) {
     // Determine square distance scalar
     const distanceSquared = (deltaX * deltaX) + (deltaY * deltaY);
     
-    // Intersection flags return true if bounds overlap
+    // Smooth overlap registration checking radius scalar (returns true if bounds overlap)
     return distanceSquared < (playerCircle.radius * playerCircle.radius);
 }
 
 // ============================================================================
-// STICK FIGURE VECTOR CANVAS ART RENDERING (js/draw.js Replacement)
+// STICK FIGURE VECTOR CANVAS ART RENDERING (js/draw.js)
 // ============================================================================
 
 /**
@@ -129,6 +142,6 @@ function drawStickFigurePlayer(ctx, player) {
 }
 
 // ============================================================================
-// EXPORT INTEGRATION REFERENCE
+// INITIALIZATION EXECUTION
 // ============================================================================
 console.log("Game sub-systems cleanly initialized. 100 levels built successfully.");
