@@ -7,3 +7,10 @@
 
    You will almost never need to change this file.
    ===================================================================== */
+
+Draw.setup();
+
+Level.loadData(function () {
+  Game.startLevel(CONFIG.START_LEVEL);
+  Game.loop();
+});
