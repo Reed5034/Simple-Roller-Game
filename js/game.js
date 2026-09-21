@@ -9,10 +9,13 @@
    the numbers).
    ===================================================================== */
 
-var Game = {
-  mode: "playing",   // "playing", "dead", or "won"
-  levelNumber: 0
-};
+var Game = {  
+  mode: "MENU",       // "MENU", "playing", "dead", "won", "break"  
+  levelNumber: 0,  
+  beatGame: false,  
+  enterWasDown: false,  
+  wasDownBreak: false  
+};  
 
 Game.startLevel = function (levelNumber) {
   Game.levelNumber = levelNumber;
