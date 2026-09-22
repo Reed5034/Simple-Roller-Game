@@ -20,6 +20,7 @@ var Game = {
 Game.startLevel = function (levelNumber) {
   Game.levelNumber = levelNumber;
   Level.build(levelNumber);
+  Enemy.reset();
   Player.reset();
   Game.mode = "playing";
   Game.showMessage("");
@@ -59,6 +60,7 @@ Game.update = function () {
   // 3. everything else only runs while actually playing  
   if (Game.mode !== "playing") { return; }  
   
+  Enemy.update();
   Player.update();  
   if (Player.isDead()) {  
     Game.mode = "dead";  

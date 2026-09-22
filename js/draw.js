@@ -34,7 +34,10 @@ Draw.everything = function () {
   ctx.save();  
   ctx.translate(-Draw.cameraX, 0);  
   
-  Draw.world();  
+  Draw.world();
+  Draw.secretAreas();
+  Draw.powerups();
+  Enemy.draw();
   Draw.player();  
   
   ctx.restore();  
@@ -103,7 +106,35 @@ Draw.block = function (x, y, size) {
                  y + CONFIG.LINE_WIDTH / 2,  
                  size - CONFIG.LINE_WIDTH,  
                  size - CONFIG.LINE_WIDTH);  
-};  
+};
+
+Draw.powerups = function () {
+  if (!Level.powerups) { return; }
+
+  var ctx = Draw.ctx;
+  for (var i = 0; i < Level.powerups.length; i++) {
+    var item = Level.powerups[i];
+    if (item.collected) { continue; }
+
+    ctx.beginPath();
+    ctx.fillStyle = item.type === "shield" ? "#ffd93d" : "#31d0ff";
+    ctx.arc(item.x + (item.w || 18) / 2, item.y + (item.h || 18) / 2, 9, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.closePath();
+  }
+};
+
+Draw.secretAreas = function () {
+  if (!Level.secretAreas) { return; }
+
+  var ctx = Draw.ctx;
+  for (var i = 0; i < Level.secretAreas.length; i++) {
+    var area = Level.secretAreas[i];
+    var alpha = area.entered ? 0.12 : 0.06;
+    ctx.fillStyle = area.entered ? "rgba(36, 214, 126, " + alpha + ")" : "rgba(47, 140, 255, " + alpha + ")";
+    ctx.fillRect(area.x, area.y, area.w, area.h);
+  }
+};
   
 Draw.spike = function (x, y, size) {  
   var ctx = Draw.ctx;  

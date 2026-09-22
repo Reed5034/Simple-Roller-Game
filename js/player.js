@@ -13,7 +13,10 @@ var Player = {
   vx: 0,           // speed left and right
   vy: 0,           // speed up and down
   onGround: false, // is the player standing on something right now?
-  angle: 0         // how far the circle has rolled, for drawing the dot
+  angle: 0,        // how far the circle has rolled, for drawing the dot
+  boostTime: 0,    // frames remaining for speed/jump boost
+  shieldTime: 0,   // frames remaining for enemy shield
+  secretGlow: 0    // frames showing secret route effect
 };
 
 // Put the player back at the level's S square.
@@ -24,20 +27,92 @@ Player.reset = function () {
   Player.vy = 0;
   Player.onGround = false;
   Player.angle = 0;
+  Player.boostTime = 0;
+  Player.shieldTime = 0;
+  Player.secretGlow = 0;
+
+  if (Level.secretAreas) {
+    for (var i = 0; i < Level.secretAreas.length; i++) {
+      Level.secretAreas[i].entered = false;
+    }
+  }
+  if (Level.powerups) {
+    for (var i = 0; i < Level.powerups.length; i++) {
+      Level.powerups[i].collected = false;
+    }
+  }
+};
+
+Player.tryCollectPowerup = function () {
+  if (!Level.powerups) { return; }
+
+  var size = CONFIG.PLAYER_SIZE;
+  for (var i = 0; i < Level.powerups.length; i++) {
+    var powerup = Level.powerups[i];
+    if (powerup.collected) { continue; }
+
+    var x = powerup.x;
+    var y = powerup.y;
+    var w = powerup.w || 18;
+    var h = powerup.h || 18;
+
+    if (Player.x + size > x && Player.x < x + w &&
+        Player.y + size > y && Player.y < y + h) {
+      powerup.collected = true;
+      if (powerup.type === "boost") {
+        Player.boostTime = 300;
+        Game.showMessage("Boost! The secret path feels much easier.");
+      } else if (powerup.type === "shield") {
+        Player.shieldTime = 360;
+        Game.showMessage("Shield! One enemy hit is blocked.");
+      }
+    }
+  }
+};
+
+Player.trySecretArea = function () {
+  if (!Level.secretAreas) { return; }
+
+  var size = CONFIG.PLAYER_SIZE;
+  for (var i = 0; i < Level.secretAreas.length; i++) {
+    var area = Level.secretAreas[i];
+    if (area.entered) { continue; }
+
+    if (Level.overlapsRect(Player.x, Player.y, size, size, area)) {
+      area.entered = true;
+      Player.secretGlow = 180;
+      Player.boostTime = Math.max(Player.boostTime, 180);
+      Game.showMessage("Secret area found! Extra speed helps.");
+    }
+  }
 };
 
 // Run one frame of player movement.
 Player.update = function () {
   var size = CONFIG.PLAYER_SIZE;
+  Player.tryCollectPowerup();
+  Player.trySecretArea();
+
+  if (Player.boostTime > 0) {
+    Player.boostTime = Player.boostTime - 1;
+  }
+  if (Player.shieldTime > 0) {
+    Player.shieldTime = Player.shieldTime - 1;
+  }
+  if (Player.secretGlow > 0) {
+    Player.secretGlow = Player.secretGlow - 1;
+  }
 
   // --- 1. decide how fast to go sideways ------------------------------
+  var moveSpeed = CONFIG.MOVE_SPEED + (Player.boostTime > 0 ? 2 : 0);
   Player.vx = 0;
-  if (Input.left)  { Player.vx = -CONFIG.MOVE_SPEED; }
-  if (Input.right) { Player.vx =  CONFIG.MOVE_SPEED; }
+  if (Input.left)  { Player.vx = -moveSpeed; }
+  if (Input.right) { Player.vx =  moveSpeed; }
 
   // --- 2. jump, but only if we are standing on something --------------
+  var jumpPower = CONFIG.JUMP_POWER + (Player.boostTime > 0 ? 1.5 : 0);
   if (Input.jump && Player.onGround) {
-    Player.vy = -CONFIG.JUMP_POWER;   // negative is UP
+    Player.vy = -jumpPower;   // negative is UP
     Player.onGround = false;
   }
 
@@ -80,6 +155,13 @@ Player.update = function () {
 Player.isDead = function () {
   var size = CONFIG.PLAYER_SIZE;
   if (Collide.hitsSpike(Player.x, Player.y, size, size)) { return true; }
+  if (Enemy.checkHit(Player.x, Player.y, size, size)) {
+    if (Player.shieldTime > 0) {
+      Player.shieldTime = 0;
+      return false;
+    }
+    return true;
+  }
   if (Player.y > CONFIG.CANVAS_H + 200) { return true; }   // fell off the world
   return false;
 };

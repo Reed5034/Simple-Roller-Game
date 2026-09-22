@@ -1,6 +1,5 @@
 {
-  "_comment": "A level is just a list of piece names in order, left to right. Every name you use here must exist in data/pieces.json. Add, remove, or reorder pieces to build a new level. Every level should start with 'start' and end with 'finish'.",
-
+  "_comment": "A level is just a list of piece names in order, left to right. Every name you use here must exist in data/pieces.json. Add, remove, or reorder pieces to build a new level. Every level should start with 'start' and end with 'finish'. Enemies patrol horizontally and are a moving hazard that blocks the path to the flag.",
   "levels": [
     {
       "name": "Level 1 - Warm Up",
@@ -13,20 +12,2604 @@
         "platform",
         "stairs",
         "finish"
+      ],
+      "enemies": [],
+      "secretAreas": [
+        {
+          "x": 1075,
+          "y": 90,
+          "w": 120,
+          "h": 140
+        }
+      ],
+      "powerups": [
+        {
+          "x": 1097,
+          "y": 225,
+          "w": 18,
+          "h": 18,
+          "type": "boost"
+        }
       ]
     },
     {
-      "name": "Level 2 - Watch Your Step",
+      "name": "Level 2 - Careful Steps",
       "pieces": [
         "start",
         "spikes",
         "gap",
         "step",
-        "spikepit",
+        "flat",
         "platform",
         "gap",
         "flat",
         "finish"
+      ],
+      "enemies": [
+        {
+          "x": 440,
+          "y": 300,
+          "w": 24,
+          "h": 24,
+          "minX": 300,
+          "maxX": 620,
+          "vx": 1.1
+        }
+      ],
+      "secretAreas": [
+        {
+          "x": 1254,
+          "y": 90,
+          "w": 145,
+          "h": 140
+        }
+      ],
+      "powerups": [
+        {
+          "x": 1276,
+          "y": 225,
+          "w": 18,
+          "h": 18,
+          "type": "shield"
+        }
+      ]
+    },
+    {
+      "name": "Level 3 - Tiny Hurdles",
+      "pieces": [
+        "start",
+        "flat",
+        "flat",
+        "gap",
+        "spikes",
+        "platform",
+        "step",
+        "gap",
+        "flat",
+        "finish"
+      ],
+      "enemies": [],
+      "secretAreas": [
+        {
+          "x": 1434,
+          "y": 90,
+          "w": 170,
+          "h": 140
+        }
+      ],
+      "powerups": [
+        {
+          "x": 1456,
+          "y": 225,
+          "w": 18,
+          "h": 18,
+          "type": "boost"
+        }
+      ]
+    },
+    {
+      "name": "Level 4 - Spikes Ahead",
+      "pieces": [
+        "start",
+        "gap",
+        "spikes",
+        "step",
+        "gap",
+        "flat",
+        "spikepit",
+        "stairs",
+        "finish"
+      ],
+      "enemies": [
+        {
+          "x": 520,
+          "y": 300,
+          "w": 24,
+          "h": 24,
+          "minX": 360,
+          "maxX": 760,
+          "vx": 1.15
+        }
+      ],
+      "secretAreas": [
+        {
+          "x": 1344,
+          "y": 90,
+          "w": 120,
+          "h": 140
+        }
+      ],
+      "powerups": [
+        {
+          "x": 1366,
+          "y": 225,
+          "w": 18,
+          "h": 18,
+          "type": "shield"
+        }
+      ]
+    },
+    {
+      "name": "Level 5 - Platform Swing",
+      "pieces": [
+        "start",
+        "platform",
+        "flat",
+        "spikes",
+        "gap",
+        "flat",
+        "platform",
+        "flat",
+        "finish"
+      ],
+      "enemies": [
+        {
+          "x": 620,
+          "y": 300,
+          "w": 24,
+          "h": 24,
+          "minX": 440,
+          "maxX": 900,
+          "vx": 1.2
+        }
+      ],
+      "secretAreas": [
+        {
+          "x": 1389,
+          "y": 90,
+          "w": 145,
+          "h": 140
+        }
+      ],
+      "powerups": [
+        {
+          "x": 1411,
+          "y": 225,
+          "w": 18,
+          "h": 18,
+          "type": "boost"
+        }
+      ]
+    },
+    {
+      "name": "Level 6 - Staircase",
+      "pieces": [
+        "start",
+        "stairs",
+        "gap",
+        "spikes",
+        "step",
+        "gap",
+        "flat",
+        "platform",
+        "finish"
+      ],
+      "enemies": [
+        {
+          "x": 700,
+          "y": 300,
+          "w": 24,
+          "h": 24,
+          "minX": 500,
+          "maxX": 960,
+          "vx": 1.2
+        }
+      ],
+      "secretAreas": [
+        {
+          "x": 1209,
+          "y": 90,
+          "w": 170,
+          "h": 140
+        }
+      ],
+      "powerups": [
+        {
+          "x": 1231,
+          "y": 225,
+          "w": 18,
+          "h": 18,
+          "type": "shield"
+        }
+      ]
+    },
+    {
+      "name": "Level 7 - Left and Right",
+      "pieces": [
+        "start",
+        "flat",
+        "spikepit",
+        "gap",
+        "flat",
+        "spikes",
+        "gap",
+        "stairs",
+        "finish"
+      ],
+      "enemies": [
+        {
+          "x": 560,
+          "y": 300,
+          "w": 24,
+          "h": 24,
+          "minX": 360,
+          "maxX": 760,
+          "vx": 1.25
+        }
+      ],
+      "secretAreas": [
+        {
+          "x": 1254,
+          "y": 90,
+          "w": 120,
+          "h": 140
+        }
+      ],
+      "powerups": [
+        {
+          "x": 1276,
+          "y": 225,
+          "w": 18,
+          "h": 18,
+          "type": "boost"
+        }
+      ]
+    },
+    {
+      "name": "Level 8 - Small Steps",
+      "pieces": [
+        "start",
+        "step",
+        "platform",
+        "spikes",
+        "flat",
+        "gap",
+        "step",
+        "platform",
+        "finish"
+      ],
+      "enemies": [
+        {
+          "x": 500,
+          "y": 300,
+          "w": 24,
+          "h": 24,
+          "minX": 280,
+          "maxX": 820,
+          "vx": 1.3
+        }
+      ],
+      "secretAreas": [
+        {
+          "x": 1299,
+          "y": 90,
+          "w": 145,
+          "h": 140
+        }
+      ],
+      "powerups": [
+        {
+          "x": 1321,
+          "y": 225,
+          "w": 18,
+          "h": 18,
+          "type": "shield"
+        }
+      ]
+    },
+    {
+      "name": "Level 9 - Hollow Ground",
+      "pieces": [
+        "start",
+        "gap",
+        "flat",
+        "spikes",
+        "spikepit",
+        "flat",
+        "gap",
+        "stairs",
+        "finish"
+      ],
+      "enemies": [
+        {
+          "x": 640,
+          "y": 300,
+          "w": 24,
+          "h": 24,
+          "minX": 420,
+          "maxX": 860,
+          "vx": 1.35
+        }
+      ],
+      "secretAreas": [
+        {
+          "x": 1344,
+          "y": 90,
+          "w": 170,
+          "h": 140
+        }
+      ],
+      "powerups": [
+        {
+          "x": 1366,
+          "y": 225,
+          "w": 18,
+          "h": 18,
+          "type": "boost"
+        }
+      ]
+    },
+    {
+      "name": "Level 10 - Lift Off",
+      "pieces": [
+        "start",
+        "platform",
+        "stairs",
+        "gap",
+        "flat",
+        "spikes",
+        "flat",
+        "platform",
+        "finish"
+      ],
+      "enemies": [
+        {
+          "x": 760,
+          "y": 300,
+          "w": 24,
+          "h": 24,
+          "minX": 520,
+          "maxX": 980,
+          "vx": 1.4
+        }
+      ],
+      "secretAreas": [
+        {
+          "x": 1389,
+          "y": 90,
+          "w": 120,
+          "h": 140
+        }
+      ],
+      "powerups": [
+        {
+          "x": 1411,
+          "y": 225,
+          "w": 18,
+          "h": 18,
+          "type": "shield"
+        }
+      ]
+    },
+    {
+      "name": "Level 11 - Pocket Patrol",
+      "pieces": [
+        "start",
+        "flat",
+        "spikes",
+        "step",
+        "gap",
+        "spikepit",
+        "platform",
+        "gap",
+        "finish"
+      ],
+      "enemies": [
+        {
+          "x": 640,
+          "y": 300,
+          "w": 24,
+          "h": 24,
+          "minX": 440,
+          "maxX": 900,
+          "vx": 1.45
+        }
+      ],
+      "secretAreas": [
+        {
+          "x": 1209,
+          "y": 90,
+          "w": 145,
+          "h": 140
+        }
+      ],
+      "powerups": [
+        {
+          "x": 1231,
+          "y": 225,
+          "w": 18,
+          "h": 18,
+          "type": "boost"
+        }
+      ]
+    },
+    {
+      "name": "Level 12 - Step Logic",
+      "pieces": [
+        "start",
+        "step",
+        "flat",
+        "platform",
+        "spikes",
+        "gap",
+        "flat",
+        "stairs",
+        "finish"
+      ],
+      "enemies": [
+        {
+          "x": 530,
+          "y": 300,
+          "w": 24,
+          "h": 24,
+          "minX": 280,
+          "maxX": 760,
+          "vx": 1.5
+        }
+      ],
+      "secretAreas": [
+        {
+          "x": 1254,
+          "y": 90,
+          "w": 170,
+          "h": 140
+        }
+      ],
+      "powerups": [
+        {
+          "x": 1276,
+          "y": 225,
+          "w": 18,
+          "h": 18,
+          "type": "shield"
+        }
+      ]
+    },
+    {
+      "name": "Level 13 - Soft Fall",
+      "pieces": [
+        "start",
+        "gap",
+        "flat",
+        "spikes",
+        "step",
+        "platform",
+        "gap",
+        "flat",
+        "finish"
+      ],
+      "enemies": [
+        {
+          "x": 760,
+          "y": 300,
+          "w": 24,
+          "h": 24,
+          "minX": 500,
+          "maxX": 980,
+          "vx": 1.55
+        }
+      ],
+      "secretAreas": [
+        {
+          "x": 1299,
+          "y": 90,
+          "w": 120,
+          "h": 140
+        }
+      ],
+      "powerups": [
+        {
+          "x": 1321,
+          "y": 225,
+          "w": 18,
+          "h": 18,
+          "type": "boost"
+        },
+        {
+          "x": 1371,
+          "y": 180,
+          "w": 18,
+          "h": 18,
+          "type": "shield"
+        }
+      ]
+    },
+    {
+      "name": "Level 14 - Threaded Path",
+      "pieces": [
+        "start",
+        "spikes",
+        "platform",
+        "gap",
+        "flat",
+        "spikepit",
+        "stairs",
+        "finish"
+      ],
+      "enemies": [
+        {
+          "x": 680,
+          "y": 300,
+          "w": 24,
+          "h": 24,
+          "minX": 380,
+          "maxX": 930,
+          "vx": 1.6
+        },
+        {
+          "x": 980,
+          "y": 300,
+          "w": 24,
+          "h": 24,
+          "minX": 760,
+          "maxX": 1200,
+          "vx": 1.4
+        }
+      ],
+      "secretAreas": [
+        {
+          "x": 1210,
+          "y": 90,
+          "w": 145,
+          "h": 140
+        }
+      ],
+      "powerups": [
+        {
+          "x": 1232,
+          "y": 225,
+          "w": 18,
+          "h": 18,
+          "type": "shield"
+        },
+        {
+          "x": 1307,
+          "y": 180,
+          "w": 18,
+          "h": 18,
+          "type": "boost"
+        }
+      ]
+    },
+    {
+      "name": "Level 15 - Runner",
+      "pieces": [
+        "start",
+        "flat",
+        "gap",
+        "step",
+        "spikes",
+        "flat",
+        "platform",
+        "gap",
+        "finish"
+      ],
+      "enemies": [
+        {
+          "x": 560,
+          "y": 300,
+          "w": 24,
+          "h": 24,
+          "minX": 340,
+          "maxX": 760,
+          "vx": 1.65
+        }
+      ],
+      "secretAreas": [
+        {
+          "x": 1389,
+          "y": 90,
+          "w": 170,
+          "h": 140
+        }
+      ],
+      "powerups": [
+        {
+          "x": 1411,
+          "y": 225,
+          "w": 18,
+          "h": 18,
+          "type": "boost"
+        },
+        {
+          "x": 1511,
+          "y": 180,
+          "w": 18,
+          "h": 18,
+          "type": "shield"
+        }
+      ]
+    },
+    {
+      "name": "Level 16 - Aerial Test",
+      "pieces": [
+        "start",
+        "stairs",
+        "flat",
+        "spikes",
+        "gap",
+        "platform",
+        "spikepit",
+        "flat",
+        "finish"
+      ],
+      "enemies": [
+        {
+          "x": 720,
+          "y": 300,
+          "w": 24,
+          "h": 24,
+          "minX": 550,
+          "maxX": 940,
+          "vx": 1.7
+        }
+      ],
+      "secretAreas": [
+        {
+          "x": 1209,
+          "y": 90,
+          "w": 120,
+          "h": 140
+        }
+      ],
+      "powerups": [
+        {
+          "x": 1231,
+          "y": 225,
+          "w": 18,
+          "h": 18,
+          "type": "shield"
+        },
+        {
+          "x": 1281,
+          "y": 180,
+          "w": 18,
+          "h": 18,
+          "type": "boost"
+        }
+      ]
+    },
+    {
+      "name": "Level 17 - Bounce Line",
+      "pieces": [
+        "start",
+        "platform",
+        "gap",
+        "spikes",
+        "flat",
+        "step",
+        "gap",
+        "stairs",
+        "finish"
+      ],
+      "enemies": [
+        {
+          "x": 500,
+          "y": 300,
+          "w": 24,
+          "h": 24,
+          "minX": 280,
+          "maxX": 710,
+          "vx": 1.8
+        },
+        {
+          "x": 980,
+          "y": 300,
+          "w": 24,
+          "h": 24,
+          "minX": 740,
+          "maxX": 1180,
+          "vx": 1.45
+        }
+      ],
+      "secretAreas": [
+        {
+          "x": 1254,
+          "y": 90,
+          "w": 145,
+          "h": 140
+        }
+      ],
+      "powerups": [
+        {
+          "x": 1276,
+          "y": 225,
+          "w": 18,
+          "h": 18,
+          "type": "boost"
+        },
+        {
+          "x": 1351,
+          "y": 180,
+          "w": 18,
+          "h": 18,
+          "type": "shield"
+        }
+      ]
+    },
+    {
+      "name": "Level 18 - Broken Floor",
+      "pieces": [
+        "start",
+        "flat",
+        "spikepit",
+        "flat",
+        "gap",
+        "step",
+        "spikes",
+        "platform",
+        "finish"
+      ],
+      "enemies": [
+        {
+          "x": 680,
+          "y": 300,
+          "w": 24,
+          "h": 24,
+          "minX": 360,
+          "maxX": 900,
+          "vx": 1.75
+        }
+      ],
+      "secretAreas": [
+        {
+          "x": 1299,
+          "y": 90,
+          "w": 170,
+          "h": 140
+        }
+      ],
+      "powerups": [
+        {
+          "x": 1321,
+          "y": 225,
+          "w": 18,
+          "h": 18,
+          "type": "shield"
+        },
+        {
+          "x": 1421,
+          "y": 180,
+          "w": 18,
+          "h": 18,
+          "type": "boost"
+        }
+      ]
+    },
+    {
+      "name": "Level 19 - Short Sprints",
+      "pieces": [
+        "start",
+        "gap",
+        "step",
+        "flat",
+        "spikes",
+        "platform",
+        "gap",
+        "stairs",
+        "finish"
+      ],
+      "enemies": [
+        {
+          "x": 620,
+          "y": 300,
+          "w": 24,
+          "h": 24,
+          "minX": 430,
+          "maxX": 830,
+          "vx": 1.8
+        },
+        {
+          "x": 940,
+          "y": 300,
+          "w": 24,
+          "h": 24,
+          "minX": 720,
+          "maxX": 1140,
+          "vx": 1.55
+        }
+      ],
+      "secretAreas": [
+        {
+          "x": 1344,
+          "y": 90,
+          "w": 120,
+          "h": 140
+        }
+      ],
+      "powerups": [
+        {
+          "x": 1366,
+          "y": 225,
+          "w": 18,
+          "h": 18,
+          "type": "boost"
+        },
+        {
+          "x": 1416,
+          "y": 180,
+          "w": 18,
+          "h": 18,
+          "type": "shield"
+        }
+      ]
+    },
+    {
+      "name": "Level 20 - Prism Run",
+      "pieces": [
+        "start",
+        "flat",
+        "spikes",
+        "gap",
+        "step",
+        "spikepit",
+        "platform",
+        "flat",
+        "finish"
+      ],
+      "enemies": [
+        {
+          "x": 540,
+          "y": 300,
+          "w": 24,
+          "h": 24,
+          "minX": 320,
+          "maxX": 780,
+          "vx": 1.9
+        }
+      ],
+      "secretAreas": [
+        {
+          "x": 1389,
+          "y": 90,
+          "w": 145,
+          "h": 140
+        }
+      ],
+      "powerups": [
+        {
+          "x": 1411,
+          "y": 225,
+          "w": 18,
+          "h": 18,
+          "type": "shield"
+        },
+        {
+          "x": 1486,
+          "y": 180,
+          "w": 18,
+          "h": 18,
+          "type": "boost"
+        }
+      ]
+    },
+    {
+      "name": "Level 21 - Ladder Sweep",
+      "pieces": [
+        "start",
+        "stairs",
+        "step",
+        "flat",
+        "gap",
+        "spikes",
+        "platform",
+        "gap",
+        "finish"
+      ],
+      "enemies": [
+        {
+          "x": 760,
+          "y": 300,
+          "w": 24,
+          "h": 24,
+          "minX": 500,
+          "maxX": 980,
+          "vx": 1.9
+        },
+        {
+          "x": 1120,
+          "y": 300,
+          "w": 24,
+          "h": 24,
+          "minX": 860,
+          "maxX": 1350,
+          "vx": 1.6
+        }
+      ],
+      "secretAreas": [
+        {
+          "x": 1209,
+          "y": 90,
+          "w": 170,
+          "h": 140
+        }
+      ],
+      "powerups": [
+        {
+          "x": 1231,
+          "y": 225,
+          "w": 18,
+          "h": 18,
+          "type": "boost"
+        },
+        {
+          "x": 1331,
+          "y": 180,
+          "w": 18,
+          "h": 18,
+          "type": "shield"
+        }
+      ]
+    },
+    {
+      "name": "Level 22 - Steel Gap",
+      "pieces": [
+        "start",
+        "flat",
+        "platform",
+        "spikes",
+        "gap",
+        "flat",
+        "step",
+        "spikepit",
+        "finish"
+      ],
+      "enemies": [
+        {
+          "x": 610,
+          "y": 300,
+          "w": 24,
+          "h": 24,
+          "minX": 340,
+          "maxX": 840,
+          "vx": 2.0
+        }
+      ],
+      "secretAreas": [
+        {
+          "x": 1254,
+          "y": 90,
+          "w": 120,
+          "h": 140
+        }
+      ],
+      "powerups": [
+        {
+          "x": 1276,
+          "y": 225,
+          "w": 18,
+          "h": 18,
+          "type": "shield"
+        },
+        {
+          "x": 1326,
+          "y": 180,
+          "w": 18,
+          "h": 18,
+          "type": "boost"
+        }
+      ]
+    },
+    {
+      "name": "Level 23 - Echo Hills",
+      "pieces": [
+        "start",
+        "gap",
+        "spikes",
+        "flat",
+        "step",
+        "platform",
+        "gap",
+        "flat",
+        "finish"
+      ],
+      "enemies": [
+        {
+          "x": 520,
+          "y": 300,
+          "w": 24,
+          "h": 24,
+          "minX": 260,
+          "maxX": 760,
+          "vx": 2.05
+        },
+        {
+          "x": 980,
+          "y": 300,
+          "w": 24,
+          "h": 24,
+          "minX": 760,
+          "maxX": 1190,
+          "vx": 1.7
+        }
+      ],
+      "secretAreas": [
+        {
+          "x": 1299,
+          "y": 90,
+          "w": 145,
+          "h": 140
+        }
+      ],
+      "powerups": [
+        {
+          "x": 1321,
+          "y": 225,
+          "w": 18,
+          "h": 18,
+          "type": "boost"
+        },
+        {
+          "x": 1396,
+          "y": 180,
+          "w": 18,
+          "h": 18,
+          "type": "shield"
+        }
+      ]
+    },
+    {
+      "name": "Level 24 - Unsteady",
+      "pieces": [
+        "start",
+        "step",
+        "gap",
+        "platform",
+        "spikepit",
+        "spikes",
+        "flat",
+        "stairs",
+        "finish"
+      ],
+      "enemies": [
+        {
+          "x": 660,
+          "y": 300,
+          "w": 24,
+          "h": 24,
+          "minX": 380,
+          "maxX": 920,
+          "vx": 2.1
+        },
+        {
+          "x": 1120,
+          "y": 300,
+          "w": 24,
+          "h": 24,
+          "minX": 820,
+          "maxX": 1320,
+          "vx": 1.8
+        }
+      ],
+      "secretAreas": [
+        {
+          "x": 1344,
+          "y": 90,
+          "w": 170,
+          "h": 140
+        }
+      ],
+      "powerups": [
+        {
+          "x": 1366,
+          "y": 225,
+          "w": 18,
+          "h": 18,
+          "type": "shield"
+        },
+        {
+          "x": 1466,
+          "y": 180,
+          "w": 18,
+          "h": 18,
+          "type": "boost"
+        }
+      ]
+    },
+    {
+      "name": "Level 25 - Controlled Slide",
+      "pieces": [
+        "start",
+        "flat",
+        "flat",
+        "spikes",
+        "gap",
+        "step",
+        "platform",
+        "finish"
+      ],
+      "enemies": [
+        {
+          "x": 710,
+          "y": 300,
+          "w": 24,
+          "h": 24,
+          "minX": 420,
+          "maxX": 970,
+          "vx": 2.15
+        }
+      ],
+      "secretAreas": [
+        {
+          "x": 1255,
+          "y": 90,
+          "w": 120,
+          "h": 140
+        }
+      ],
+      "powerups": [
+        {
+          "x": 1277,
+          "y": 225,
+          "w": 18,
+          "h": 18,
+          "type": "boost"
+        },
+        {
+          "x": 1327,
+          "y": 180,
+          "w": 18,
+          "h": 18,
+          "type": "shield"
+        }
+      ]
+    },
+    {
+      "name": "Level 26 - Stacked Risk",
+      "pieces": [
+        "start",
+        "platform",
+        "step",
+        "gap",
+        "flat",
+        "spikes",
+        "platform",
+        "gap",
+        "finish"
+      ],
+      "enemies": [
+        {
+          "x": 520,
+          "y": 300,
+          "w": 24,
+          "h": 24,
+          "minX": 260,
+          "maxX": 700,
+          "vx": 2.2
+        },
+        {
+          "x": 980,
+          "y": 300,
+          "w": 24,
+          "h": 24,
+          "minX": 760,
+          "maxX": 1200,
+          "vx": 1.9
+        }
+      ],
+      "secretAreas": [
+        {
+          "x": 1209,
+          "y": 90,
+          "w": 145,
+          "h": 140
+        }
+      ],
+      "powerups": [
+        {
+          "x": 1231,
+          "y": 225,
+          "w": 18,
+          "h": 18,
+          "type": "shield"
+        },
+        {
+          "x": 1306,
+          "y": 180,
+          "w": 18,
+          "h": 18,
+          "type": "boost"
+        }
+      ]
+    },
+    {
+      "name": "Level 27 - Sharp Turn",
+      "pieces": [
+        "start",
+        "gap",
+        "spikes",
+        "spikepit",
+        "flat",
+        "stairs",
+        "gap",
+        "finish"
+      ],
+      "enemies": [
+        {
+          "x": 590,
+          "y": 300,
+          "w": 24,
+          "h": 24,
+          "minX": 340,
+          "maxX": 820,
+          "vx": 2.25
+        },
+        {
+          "x": 960,
+          "y": 300,
+          "w": 24,
+          "h": 24,
+          "minX": 720,
+          "maxX": 1160,
+          "vx": 2.0
+        }
+      ],
+      "secretAreas": [
+        {
+          "x": 1120,
+          "y": 90,
+          "w": 170,
+          "h": 140
+        }
+      ],
+      "powerups": [
+        {
+          "x": 1142,
+          "y": 225,
+          "w": 18,
+          "h": 18,
+          "type": "boost"
+        },
+        {
+          "x": 1242,
+          "y": 180,
+          "w": 18,
+          "h": 18,
+          "type": "shield"
+        }
+      ]
+    },
+    {
+      "name": "Level 28 - Floorboard",
+      "pieces": [
+        "start",
+        "flat",
+        "platform",
+        "gap",
+        "spikes",
+        "flat",
+        "step",
+        "gap",
+        "finish"
+      ],
+      "enemies": [
+        {
+          "x": 640,
+          "y": 300,
+          "w": 24,
+          "h": 24,
+          "minX": 350,
+          "maxX": 840,
+          "vx": 2.3
+        },
+        {
+          "x": 1080,
+          "y": 300,
+          "w": 24,
+          "h": 24,
+          "minX": 830,
+          "maxX": 1260,
+          "vx": 2.0
+        }
+      ],
+      "secretAreas": [
+        {
+          "x": 1299,
+          "y": 90,
+          "w": 120,
+          "h": 140
+        }
+      ],
+      "powerups": [
+        {
+          "x": 1321,
+          "y": 225,
+          "w": 18,
+          "h": 18,
+          "type": "shield"
+        },
+        {
+          "x": 1371,
+          "y": 180,
+          "w": 18,
+          "h": 18,
+          "type": "boost"
+        }
+      ]
+    },
+    {
+      "name": "Level 29 - Last Step",
+      "pieces": [
+        "start",
+        "stairs",
+        "gap",
+        "flat",
+        "spikepit",
+        "spikes",
+        "platform",
+        "finish"
+      ],
+      "enemies": [
+        {
+          "x": 700,
+          "y": 300,
+          "w": 24,
+          "h": 24,
+          "minX": 470,
+          "maxX": 930,
+          "vx": 2.35
+        },
+        {
+          "x": 1110,
+          "y": 300,
+          "w": 24,
+          "h": 24,
+          "minX": 900,
+          "maxX": 1340,
+          "vx": 2.05
+        }
+      ],
+      "secretAreas": [
+        {
+          "x": 1210,
+          "y": 90,
+          "w": 145,
+          "h": 140
+        }
+      ],
+      "powerups": [
+        {
+          "x": 1232,
+          "y": 225,
+          "w": 18,
+          "h": 18,
+          "type": "boost"
+        },
+        {
+          "x": 1307,
+          "y": 180,
+          "w": 18,
+          "h": 18,
+          "type": "shield"
+        }
+      ]
+    },
+    {
+      "name": "Level 30 - Thin Air",
+      "pieces": [
+        "start",
+        "spikes",
+        "flat",
+        "gap",
+        "step",
+        "platform",
+        "gap",
+        "flat",
+        "finish"
+      ],
+      "enemies": [
+        {
+          "x": 600,
+          "y": 300,
+          "w": 24,
+          "h": 24,
+          "minX": 300,
+          "maxX": 820,
+          "vx": 2.4
+        },
+        {
+          "x": 1000,
+          "y": 300,
+          "w": 24,
+          "h": 24,
+          "minX": 760,
+          "maxX": 1220,
+          "vx": 2.1
+        }
+      ],
+      "secretAreas": [
+        {
+          "x": 1389,
+          "y": 90,
+          "w": 170,
+          "h": 140
+        }
+      ],
+      "powerups": [
+        {
+          "x": 1411,
+          "y": 225,
+          "w": 18,
+          "h": 18,
+          "type": "shield"
+        },
+        {
+          "x": 1511,
+          "y": 180,
+          "w": 18,
+          "h": 18,
+          "type": "boost"
+        }
+      ]
+    },
+    {
+      "name": "Level 31 - Climb Rate",
+      "pieces": [
+        "start",
+        "flat",
+        "step",
+        "gap",
+        "spikes",
+        "platform",
+        "stairs",
+        "gap",
+        "finish"
+      ],
+      "enemies": [
+        {
+          "x": 530,
+          "y": 300,
+          "w": 24,
+          "h": 24,
+          "minX": 220,
+          "maxX": 760,
+          "vx": 2.45
+        },
+        {
+          "x": 980,
+          "y": 300,
+          "w": 24,
+          "h": 24,
+          "minX": 770,
+          "maxX": 1210,
+          "vx": 2.15
+        }
+      ],
+      "secretAreas": [
+        {
+          "x": 1209,
+          "y": 90,
+          "w": 120,
+          "h": 140
+        }
+      ],
+      "powerups": [
+        {
+          "x": 1231,
+          "y": 225,
+          "w": 18,
+          "h": 18,
+          "type": "boost"
+        },
+        {
+          "x": 1281,
+          "y": 180,
+          "w": 18,
+          "h": 18,
+          "type": "shield"
+        }
+      ]
+    },
+    {
+      "name": "Level 32 - Hard Edge",
+      "pieces": [
+        "start",
+        "platform",
+        "flat",
+        "spikepit",
+        "gap",
+        "spikes",
+        "step",
+        "finish"
+      ],
+      "enemies": [
+        {
+          "x": 650,
+          "y": 300,
+          "w": 24,
+          "h": 24,
+          "minX": 350,
+          "maxX": 960,
+          "vx": 2.5
+        },
+        {
+          "x": 1080,
+          "y": 300,
+          "w": 24,
+          "h": 24,
+          "minX": 820,
+          "maxX": 1290,
+          "vx": 2.2
+        }
+      ],
+      "secretAreas": [
+        {
+          "x": 1120,
+          "y": 90,
+          "w": 145,
+          "h": 140
+        }
+      ],
+      "powerups": [
+        {
+          "x": 1142,
+          "y": 225,
+          "w": 18,
+          "h": 18,
+          "type": "shield"
+        },
+        {
+          "x": 1217,
+          "y": 180,
+          "w": 18,
+          "h": 18,
+          "type": "boost"
+        }
+      ]
+    },
+    {
+      "name": "Level 33 - Drift",
+      "pieces": [
+        "start",
+        "gap",
+        "flat",
+        "stairs",
+        "spikes",
+        "gap",
+        "flat",
+        "platform",
+        "finish"
+      ],
+      "enemies": [
+        {
+          "x": 520,
+          "y": 300,
+          "w": 24,
+          "h": 24,
+          "minX": 240,
+          "maxX": 760,
+          "vx": 2.55
+        },
+        {
+          "x": 980,
+          "y": 300,
+          "w": 24,
+          "h": 24,
+          "minX": 730,
+          "maxX": 1170,
+          "vx": 2.25
+        }
+      ],
+      "secretAreas": [
+        {
+          "x": 1299,
+          "y": 90,
+          "w": 170,
+          "h": 140
+        }
+      ],
+      "powerups": [
+        {
+          "x": 1321,
+          "y": 225,
+          "w": 18,
+          "h": 18,
+          "type": "boost"
+        },
+        {
+          "x": 1421,
+          "y": 180,
+          "w": 18,
+          "h": 18,
+          "type": "shield"
+        }
+      ]
+    },
+    {
+      "name": "Level 34 - Open Danger",
+      "pieces": [
+        "start",
+        "flat",
+        "platform",
+        "spikes",
+        "gap",
+        "flat",
+        "spikepit",
+        "stairs",
+        "finish"
+      ],
+      "enemies": [
+        {
+          "x": 600,
+          "y": 300,
+          "w": 24,
+          "h": 24,
+          "minX": 300,
+          "maxX": 760,
+          "vx": 2.6
+        },
+        {
+          "x": 1020,
+          "y": 300,
+          "w": 24,
+          "h": 24,
+          "minX": 760,
+          "maxX": 1230,
+          "vx": 2.3
+        }
+      ],
+      "secretAreas": [
+        {
+          "x": 1344,
+          "y": 90,
+          "w": 120,
+          "h": 140
+        }
+      ],
+      "powerups": [
+        {
+          "x": 1366,
+          "y": 225,
+          "w": 18,
+          "h": 18,
+          "type": "shield"
+        },
+        {
+          "x": 1416,
+          "y": 180,
+          "w": 18,
+          "h": 18,
+          "type": "boost"
+        }
+      ]
+    },
+    {
+      "name": "Level 35 - Slow Burn",
+      "pieces": [
+        "start",
+        "step",
+        "spikes",
+        "gap",
+        "flat",
+        "platform",
+        "gap",
+        "finish"
+      ],
+      "enemies": [
+        {
+          "x": 560,
+          "y": 300,
+          "w": 24,
+          "h": 24,
+          "minX": 240,
+          "maxX": 760,
+          "vx": 2.65
+        },
+        {
+          "x": 980,
+          "y": 300,
+          "w": 24,
+          "h": 24,
+          "minX": 700,
+          "maxX": 1180,
+          "vx": 2.35
+        }
+      ],
+      "secretAreas": [
+        {
+          "x": 1255,
+          "y": 90,
+          "w": 145,
+          "h": 140
+        }
+      ],
+      "powerups": [
+        {
+          "x": 1277,
+          "y": 225,
+          "w": 18,
+          "h": 18,
+          "type": "boost"
+        },
+        {
+          "x": 1352,
+          "y": 180,
+          "w": 18,
+          "h": 18,
+          "type": "shield"
+        }
+      ]
+    },
+    {
+      "name": "Level 36 - Threaded Path",
+      "pieces": [
+        "start",
+        "stairs",
+        "flat",
+        "gap",
+        "spikepit",
+        "spikes",
+        "flat",
+        "step",
+        "finish"
+      ],
+      "enemies": [
+        {
+          "x": 700,
+          "y": 300,
+          "w": 24,
+          "h": 24,
+          "minX": 320,
+          "maxX": 920,
+          "vx": 2.7
+        },
+        {
+          "x": 1110,
+          "y": 300,
+          "w": 24,
+          "h": 24,
+          "minX": 820,
+          "maxX": 1330,
+          "vx": 2.4
+        }
+      ],
+      "secretAreas": [
+        {
+          "x": 1209,
+          "y": 90,
+          "w": 170,
+          "h": 140
+        }
+      ],
+      "powerups": [
+        {
+          "x": 1231,
+          "y": 225,
+          "w": 18,
+          "h": 18,
+          "type": "shield"
+        },
+        {
+          "x": 1331,
+          "y": 180,
+          "w": 18,
+          "h": 18,
+          "type": "boost"
+        }
+      ]
+    },
+    {
+      "name": "Level 37 - Stone Steps",
+      "pieces": [
+        "start",
+        "platform",
+        "spikes",
+        "step",
+        "gap",
+        "flat",
+        "platform",
+        "finish"
+      ],
+      "enemies": [
+        {
+          "x": 580,
+          "y": 300,
+          "w": 24,
+          "h": 24,
+          "minX": 260,
+          "maxX": 820,
+          "vx": 2.75
+        },
+        {
+          "x": 1020,
+          "y": 300,
+          "w": 24,
+          "h": 24,
+          "minX": 780,
+          "maxX": 1240,
+          "vx": 2.45
+        }
+      ],
+      "secretAreas": [
+        {
+          "x": 1120,
+          "y": 90,
+          "w": 120,
+          "h": 140
+        }
+      ],
+      "powerups": [
+        {
+          "x": 1142,
+          "y": 225,
+          "w": 18,
+          "h": 18,
+          "type": "boost"
+        },
+        {
+          "x": 1192,
+          "y": 180,
+          "w": 18,
+          "h": 18,
+          "type": "shield"
+        }
+      ]
+    },
+    {
+      "name": "Level 38 - Tight Rhythm",
+      "pieces": [
+        "start",
+        "gap",
+        "flat",
+        "spikes",
+        "step",
+        "platform",
+        "spikepit",
+        "gap",
+        "finish"
+      ],
+      "enemies": [
+        {
+          "x": 640,
+          "y": 300,
+          "w": 24,
+          "h": 24,
+          "minX": 300,
+          "maxX": 900,
+          "vx": 2.8
+        },
+        {
+          "x": 1180,
+          "y": 300,
+          "w": 24,
+          "h": 24,
+          "minX": 960,
+          "maxX": 1400,
+          "vx": 2.5
+        }
+      ],
+      "secretAreas": [
+        {
+          "x": 1299,
+          "y": 90,
+          "w": 145,
+          "h": 140
+        }
+      ],
+      "powerups": [
+        {
+          "x": 1321,
+          "y": 225,
+          "w": 18,
+          "h": 18,
+          "type": "shield"
+        },
+        {
+          "x": 1396,
+          "y": 180,
+          "w": 18,
+          "h": 18,
+          "type": "boost"
+        }
+      ]
+    },
+    {
+      "name": "Level 39 - Recovery",
+      "pieces": [
+        "start",
+        "flat",
+        "step",
+        "spikepit",
+        "gap",
+        "stairs",
+        "flat",
+        "finish"
+      ],
+      "enemies": [
+        {
+          "x": 540,
+          "y": 300,
+          "w": 24,
+          "h": 24,
+          "minX": 250,
+          "maxX": 820,
+          "vx": 2.9
+        },
+        {
+          "x": 1010,
+          "y": 300,
+          "w": 24,
+          "h": 24,
+          "minX": 760,
+          "maxX": 1200,
+          "vx": 2.6
+        }
+      ],
+      "secretAreas": [
+        {
+          "x": 1210,
+          "y": 90,
+          "w": 170,
+          "h": 140
+        }
+      ],
+      "powerups": [
+        {
+          "x": 1232,
+          "y": 225,
+          "w": 18,
+          "h": 18,
+          "type": "boost"
+        },
+        {
+          "x": 1332,
+          "y": 180,
+          "w": 18,
+          "h": 18,
+          "type": "shield"
+        }
+      ]
+    },
+    {
+      "name": "Level 40 - Spark Run",
+      "pieces": [
+        "start",
+        "spikes",
+        "platform",
+        "flat",
+        "gap",
+        "step",
+        "spikes",
+        "flat",
+        "finish"
+      ],
+      "enemies": [
+        {
+          "x": 640,
+          "y": 300,
+          "w": 24,
+          "h": 24,
+          "minX": 300,
+          "maxX": 850,
+          "vx": 3.0
+        },
+        {
+          "x": 1120,
+          "y": 300,
+          "w": 24,
+          "h": 24,
+          "minX": 840,
+          "maxX": 1350,
+          "vx": 2.7
+        }
+      ],
+      "secretAreas": [
+        {
+          "x": 1389,
+          "y": 90,
+          "w": 120,
+          "h": 140
+        }
+      ],
+      "powerups": [
+        {
+          "x": 1411,
+          "y": 225,
+          "w": 18,
+          "h": 18,
+          "type": "shield"
+        },
+        {
+          "x": 1461,
+          "y": 180,
+          "w": 18,
+          "h": 18,
+          "type": "boost"
+        }
+      ]
+    },
+    {
+      "name": "Level 41 - Bridgework",
+      "pieces": [
+        "start",
+        "stairs",
+        "gap",
+        "flat",
+        "spikes",
+        "platform",
+        "flat",
+        "gap",
+        "finish"
+      ],
+      "enemies": [
+        {
+          "x": 550,
+          "y": 300,
+          "w": 24,
+          "h": 24,
+          "minX": 270,
+          "maxX": 810,
+          "vx": 3.05
+        },
+        {
+          "x": 1040,
+          "y": 300,
+          "w": 24,
+          "h": 24,
+          "minX": 780,
+          "maxX": 1280,
+          "vx": 2.75
+        }
+      ],
+      "secretAreas": [
+        {
+          "x": 1209,
+          "y": 90,
+          "w": 145,
+          "h": 140
+        }
+      ],
+      "powerups": [
+        {
+          "x": 1231,
+          "y": 225,
+          "w": 18,
+          "h": 18,
+          "type": "boost"
+        },
+        {
+          "x": 1306,
+          "y": 180,
+          "w": 18,
+          "h": 18,
+          "type": "shield"
+        }
+      ]
+    },
+    {
+      "name": "Level 42 - Jitter Line",
+      "pieces": [
+        "start",
+        "platform",
+        "gap",
+        "step",
+        "spikepit",
+        "flat",
+        "spikes",
+        "finish"
+      ],
+      "enemies": [
+        {
+          "x": 620,
+          "y": 300,
+          "w": 24,
+          "h": 24,
+          "minX": 280,
+          "maxX": 890,
+          "vx": 3.1
+        },
+        {
+          "x": 1125,
+          "y": 300,
+          "w": 24,
+          "h": 24,
+          "minX": 870,
+          "maxX": 1340,
+          "vx": 2.8
+        }
+      ],
+      "secretAreas": [
+        {
+          "x": 1120,
+          "y": 90,
+          "w": 170,
+          "h": 140
+        }
+      ],
+      "powerups": [
+        {
+          "x": 1142,
+          "y": 225,
+          "w": 18,
+          "h": 18,
+          "type": "shield"
+        },
+        {
+          "x": 1242,
+          "y": 180,
+          "w": 18,
+          "h": 18,
+          "type": "boost"
+        }
+      ]
+    },
+    {
+      "name": "Level 43 - Quick Step",
+      "pieces": [
+        "start",
+        "flat",
+        "spikes",
+        "gap",
+        "stairs",
+        "flat",
+        "platform",
+        "finish"
+      ],
+      "enemies": [
+        {
+          "x": 720,
+          "y": 300,
+          "w": 24,
+          "h": 24,
+          "minX": 350,
+          "maxX": 960,
+          "vx": 3.15
+        },
+        {
+          "x": 1180,
+          "y": 300,
+          "w": 24,
+          "h": 24,
+          "minX": 900,
+          "maxX": 1410,
+          "vx": 2.9
+        }
+      ],
+      "secretAreas": [
+        {
+          "x": 1165,
+          "y": 90,
+          "w": 120,
+          "h": 140
+        }
+      ],
+      "powerups": [
+        {
+          "x": 1187,
+          "y": 225,
+          "w": 18,
+          "h": 18,
+          "type": "boost"
+        },
+        {
+          "x": 1237,
+          "y": 180,
+          "w": 18,
+          "h": 18,
+          "type": "shield"
+        }
+      ]
+    },
+    {
+      "name": "Level 44 - Counterbalance",
+      "pieces": [
+        "start",
+        "step",
+        "platform",
+        "gap",
+        "spikes",
+        "step",
+        "gap",
+        "flat",
+        "finish"
+      ],
+      "enemies": [
+        {
+          "x": 540,
+          "y": 300,
+          "w": 24,
+          "h": 24,
+          "minX": 180,
+          "maxX": 740,
+          "vx": 3.2
+        },
+        {
+          "x": 1040,
+          "y": 300,
+          "w": 24,
+          "h": 24,
+          "minX": 780,
+          "maxX": 1260,
+          "vx": 2.95
+        }
+      ],
+      "secretAreas": [
+        {
+          "x": 1344,
+          "y": 90,
+          "w": 145,
+          "h": 140
+        }
+      ],
+      "powerups": [
+        {
+          "x": 1366,
+          "y": 225,
+          "w": 18,
+          "h": 18,
+          "type": "shield"
+        },
+        {
+          "x": 1441,
+          "y": 180,
+          "w": 18,
+          "h": 18,
+          "type": "boost"
+        }
+      ]
+    },
+    {
+      "name": "Level 45 - Needles Ahead",
+      "pieces": [
+        "start",
+        "gap",
+        "flat",
+        "spikepit",
+        "spikes",
+        "platform",
+        "stairs",
+        "finish"
+      ],
+      "enemies": [
+        {
+          "x": 620,
+          "y": 300,
+          "w": 24,
+          "h": 24,
+          "minX": 240,
+          "maxX": 850,
+          "vx": 3.25
+        },
+        {
+          "x": 1135,
+          "y": 300,
+          "w": 24,
+          "h": 24,
+          "minX": 880,
+          "maxX": 1360,
+          "vx": 3.0
+        }
+      ],
+      "secretAreas": [
+        {
+          "x": 1255,
+          "y": 90,
+          "w": 170,
+          "h": 140
+        }
+      ],
+      "powerups": [
+        {
+          "x": 1277,
+          "y": 225,
+          "w": 18,
+          "h": 18,
+          "type": "boost"
+        },
+        {
+          "x": 1377,
+          "y": 180,
+          "w": 18,
+          "h": 18,
+          "type": "shield"
+        }
+      ]
+    },
+    {
+      "name": "Level 46 - Burst Pattern",
+      "pieces": [
+        "start",
+        "flat",
+        "gap",
+        "step",
+        "spikes",
+        "flat",
+        "platform",
+        "gap",
+        "finish"
+      ],
+      "enemies": [
+        {
+          "x": 560,
+          "y": 300,
+          "w": 24,
+          "h": 24,
+          "minX": 250,
+          "maxX": 760,
+          "vx": 3.3
+        },
+        {
+          "x": 980,
+          "y": 300,
+          "w": 24,
+          "h": 24,
+          "minX": 710,
+          "maxX": 1220,
+          "vx": 3.05
+        }
+      ],
+      "secretAreas": [
+        {
+          "x": 1209,
+          "y": 90,
+          "w": 120,
+          "h": 140
+        }
+      ],
+      "powerups": [
+        {
+          "x": 1231,
+          "y": 225,
+          "w": 18,
+          "h": 18,
+          "type": "shield"
+        },
+        {
+          "x": 1281,
+          "y": 180,
+          "w": 18,
+          "h": 18,
+          "type": "boost"
+        }
+      ]
+    },
+    {
+      "name": "Level 47 - Overhead",
+      "pieces": [
+        "start",
+        "platform",
+        "spikes",
+        "step",
+        "gap",
+        "flat",
+        "spikepit",
+        "finish"
+      ],
+      "enemies": [
+        {
+          "x": 700,
+          "y": 300,
+          "w": 24,
+          "h": 24,
+          "minX": 330,
+          "maxX": 990,
+          "vx": 3.35
+        },
+        {
+          "x": 1260,
+          "y": 300,
+          "w": 24,
+          "h": 24,
+          "minX": 950,
+          "maxX": 1480,
+          "vx": 3.1
+        }
+      ],
+      "secretAreas": [
+        {
+          "x": 1120,
+          "y": 90,
+          "w": 145,
+          "h": 140
+        }
+      ],
+      "powerups": [
+        {
+          "x": 1142,
+          "y": 225,
+          "w": 18,
+          "h": 18,
+          "type": "boost"
+        },
+        {
+          "x": 1217,
+          "y": 180,
+          "w": 18,
+          "h": 18,
+          "type": "shield"
+        }
+      ]
+    },
+    {
+      "name": "Level 48 - Final Ladder",
+      "pieces": [
+        "start",
+        "stairs",
+        "flat",
+        "spikes",
+        "gap",
+        "platform",
+        "step",
+        "finish"
+      ],
+      "enemies": [
+        {
+          "x": 590,
+          "y": 300,
+          "w": 24,
+          "h": 24,
+          "minX": 240,
+          "maxX": 860,
+          "vx": 3.4
+        },
+        {
+          "x": 1120,
+          "y": 300,
+          "w": 24,
+          "h": 24,
+          "minX": 900,
+          "maxX": 1360,
+          "vx": 3.15
+        }
+      ],
+      "secretAreas": [
+        {
+          "x": 1165,
+          "y": 90,
+          "w": 170,
+          "h": 140
+        }
+      ],
+      "powerups": [
+        {
+          "x": 1187,
+          "y": 225,
+          "w": 18,
+          "h": 18,
+          "type": "shield"
+        },
+        {
+          "x": 1287,
+          "y": 180,
+          "w": 18,
+          "h": 18,
+          "type": "boost"
+        }
+      ]
+    },
+    {
+      "name": "Level 49 - Neat Escape",
+      "pieces": [
+        "start",
+        "flat",
+        "gap",
+        "flat",
+        "spikepit",
+        "stairs",
+        "spikes",
+        "finish"
+      ],
+      "enemies": [
+        {
+          "x": 610,
+          "y": 300,
+          "w": 24,
+          "h": 24,
+          "minX": 270,
+          "maxX": 900,
+          "vx": 3.45
+        },
+        {
+          "x": 1160,
+          "y": 300,
+          "w": 24,
+          "h": 24,
+          "minX": 910,
+          "maxX": 1380,
+          "vx": 3.2
+        }
+      ],
+      "secretAreas": [
+        {
+          "x": 1210,
+          "y": 90,
+          "w": 120,
+          "h": 140
+        }
+      ],
+      "powerups": [
+        {
+          "x": 1232,
+          "y": 225,
+          "w": 18,
+          "h": 18,
+          "type": "boost"
+        },
+        {
+          "x": 1282,
+          "y": 180,
+          "w": 18,
+          "h": 18,
+          "type": "shield"
+        }
+      ]
+    },
+    {
+      "name": "Level 50 - Endgame",
+      "pieces": [
+        "start",
+        "platform",
+        "step",
+        "gap",
+        "spikes",
+        "flat",
+        "platform",
+        "gap",
+        "finish"
+      ],
+      "enemies": [
+        {
+          "x": 520,
+          "y": 300,
+          "w": 24,
+          "h": 24,
+          "minX": 180,
+          "maxX": 770,
+          "vx": 3.5
+        },
+        {
+          "x": 1080,
+          "y": 300,
+          "w": 24,
+          "h": 24,
+          "minX": 820,
+          "maxX": 1310,
+          "vx": 3.25
+        }
+      ],
+      "secretAreas": [
+        {
+          "x": 1389,
+          "y": 90,
+          "w": 145,
+          "h": 140
+        }
+      ],
+      "powerups": [
+        {
+          "x": 1411,
+          "y": 225,
+          "w": 18,
+          "h": 18,
+          "type": "shield"
+        },
+        {
+          "x": 1486,
+          "y": 180,
+          "w": 18,
+          "h": 18,
+          "type": "boost"
+        }
       ]
     }
   ]
