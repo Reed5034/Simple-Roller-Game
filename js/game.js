@@ -30,31 +30,52 @@ Game.showMessage = function (text) {
 };
 
 // --- ONE FRAME --------------------------------------------------------
-Game.update = function () {
+Game.update = function () {  
+  // 1. R always restarts  
+  if (Input.restart) {  
+    var targetLevel = Game.beatGame ? 0 : Game.levelNumber;  
+    Game.beatGame = false;  
+    Game.startLevel(targetLevel);  
+    return;  
+  }  
+  
+  // 2. win menu and break screen choices  
+  var enterJustPressed = Input.enter && !Game.enterWasDown;  
+  var breakJustPressed = Input.breakKey && !Game.wasDownBreak;  
+  Game.enterWasDown = Input.enter;  
+  Game.wasDownBreak = Input.breakKey;  
+  
+  if (Game.mode === "won" && !Game.beatGame) {  
+    if (enterJustPressed) {  
+      Game.startLevel(Game.levelNumber + 1);  
+    } else if (breakJustPressed) {  
+      Game.mode = "break";  
+    }  
+  } else if (Game.mode === "break" && enterJustPressed) {  
+    Game.mode = "won";  
+    Game.showMessage("Level Complete! Enter = Next Level, B = Need a break?");  
+  }  
+  
+  // 3. everything else only runs while actually playing  
+  if (Game.mode !== "playing") { return; }  
+  
+  Player.update();  
+  if (Player.isDead()) {  
+    Game.mode = "dead";  
+    Game.showMessage("You hit something. Press R to try again.");  
+    return;  
+  }  
+  if (Player.hasWon()) {  
+    Game.mode = "won";  
+    if (Game.levelNumber + 1 >= Level.levels.length) {  
+      Game.beatGame = true;  
+      Game.showMessage("You beat the Game! Press R to start over.");  
+    } else {  
+      Game.showMessage("Level Complete! Enter = Next Level, B = Need a break?");  
+    }  
+  }  
+};  
 
-  // R always restarts, no matter what mode we are in.
-  if (Input.restart) {
-    Game.startLevel(Game.levelNumber);
-    return;
-  }
-
-  // If we are not playing, nothing moves. We just wait for R.
-  if (Game.mode !== "playing") { return; }
-
-  Player.update();
-
-  if (Player.isDead()) {
-    Game.mode = "dead";
-    Game.showMessage("You hit something. Press R to try again.");
-    return;
-  }
-
-  if (Player.hasWon()) {
-    Game.mode = "won";
-    Game.showMessage("You made it. Press R to play again.");
-    return;
-  }
-};
 
 // --- THE LOOP ITSELF --------------------------------------------------
 Game.loop = function () {
@@ -62,4 +83,5 @@ Game.loop = function () {
   Draw.updateCamera();
   Draw.everything();
   window.requestAnimationFrame(Game.loop);
+  
 };
