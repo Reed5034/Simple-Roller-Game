@@ -81,8 +81,7 @@ Player.trySecretArea = function () {
     if (Level.overlapsRect(Player.x, Player.y, size, size, area)) {
       area.entered = true;
       Player.secretGlow = 180;
-      Player.boostTime = Math.max(Player.boostTime, 180);
-      Game.showMessage("Secret area found! Extra speed helps.");
+      Game.showMessage("Bonus route found! Optional shortcut ahead.");
     }
   }
 };
