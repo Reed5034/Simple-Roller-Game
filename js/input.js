@@ -10,9 +10,9 @@ var Input = {
   left: false,
   right: false,
   jump: false,
-  restart: false
-  enter = false;  
-  breakKey = false;
+  restart: false,
+  enter: false,
+  breakKey: false
 };
 
 // Called whenever a key goes DOWN.

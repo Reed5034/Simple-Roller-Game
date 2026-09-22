@@ -46,6 +46,8 @@ Draw.everything = function () {
 // the calm win menu and break screen  
 Draw.menu = function () {  
   var ctx = Draw.ctx;  
+  if (Game.mode !== "won" && Game.mode !== "break") { return; }
+
   ctx.fillStyle = "#ffffff";  
   ctx.fillRect(0, 0, CONFIG.CANVAS_W, CONFIG.CANVAS_H);  
   ctx.fillStyle = "#000000";  
