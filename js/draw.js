@@ -130,9 +130,18 @@ Draw.secretAreas = function () {
   var ctx = Draw.ctx;
   for (var i = 0; i < Level.secretAreas.length; i++) {
     var area = Level.secretAreas[i];
-    var alpha = area.entered ? 0.12 : 0.06;
-    ctx.fillStyle = area.entered ? "rgba(36, 214, 126, " + alpha + ")" : "rgba(47, 140, 255, " + alpha + ")";
-    ctx.fillRect(area.x, area.y, area.w, area.h);
+    var undergroundY = area.y + 180;
+    var closeEnough = Math.abs(Player.x - area.x) < 140;
+    var visibleAlpha = area.entered ? 0.18 : (closeEnough ? 0.035 : 0.01);
+
+    ctx.fillStyle = area.entered ? "rgba(58, 255, 160, 0.18)" : "rgba(19, 34, 58, " + visibleAlpha + ")";
+    ctx.fillRect(area.x, undergroundY, area.w, area.h);
+
+    if (closeEnough || area.entered) {
+      ctx.strokeStyle = area.entered ? "rgba(58, 255, 160, 0.7)" : "rgba(100, 150, 255, 0.18)";
+      ctx.lineWidth = 1;
+      ctx.strokeRect(area.x, undergroundY, area.w, area.h);
+    }
   }
 };
   
@@ -144,7 +153,11 @@ Draw.spike = function (x, y, size) {
   ctx.lineTo(x + size / 2, y);  
   ctx.lineTo(x + size, y + size);  
   ctx.closePath();  
-  ctx.fill();  
+  ctx.fill();
+
+  ctx.strokeStyle = "rgba(255, 80, 80, 0.9)";
+  ctx.lineWidth = 2;
+  ctx.strokeRect(x + 2, y + 2, size - 4, size - 4);
 };  
   
 Draw.finish = function (x, y, size) {  
