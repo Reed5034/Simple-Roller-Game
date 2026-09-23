@@ -26,9 +26,8 @@ Draw.updateCamera = function () {
 Draw.everything = function () {  
   var ctx = Draw.ctx;  
   
-  // 1. wipe the screen white  
-  ctx.fillStyle = "#ffffff";  
-  ctx.fillRect(0, 0, CONFIG.CANVAS_W, CONFIG.CANVAS_H);  
+  // 1. paint the fixed-space atmosphere behind the level
+  Draw.background();
   
   // 2. shift everything left so the camera looks like it moved right  
   ctx.save();  
@@ -51,11 +50,11 @@ Draw.menu = function () {
   var ctx = Draw.ctx;  
   if (Game.mode !== "won" && Game.mode !== "break") { return; }
 
-  ctx.fillStyle = "#ffffff";  
+  ctx.fillStyle = "rgba(5, 9, 22, 0.96)";
   ctx.fillRect(0, 0, CONFIG.CANVAS_W, CONFIG.CANVAS_H);  
-  ctx.fillStyle = "#000000";  
+  ctx.fillStyle = "#f3feff";
   ctx.textAlign = "center";  
-  ctx.font = "30px monospace";  
+  ctx.font = "bold 30px monospace";
   if (Game.mode === "won") {  
     if (Game.beatGame) {  
       ctx.fillText("You beat the Game!", CONFIG.CANVAS_W / 2, 180);  
@@ -95,17 +94,54 @@ Draw.world = function () {
     }  
   }  
 };  
+
+Draw.background = function () {
+  var ctx = Draw.ctx;
+  var gradient = ctx.createLinearGradient(0, 0, 0, CONFIG.CANVAS_H);
+  gradient.addColorStop(0, "#080d20");
+  gradient.addColorStop(0.55, "#101a35");
+  gradient.addColorStop(1, "#182642");
+  ctx.fillStyle = gradient;
+  ctx.fillRect(0, 0, CONFIG.CANVAS_W, CONFIG.CANVAS_H);
+
+  ctx.save();
+  ctx.globalAlpha = 0.16;
+  ctx.strokeStyle = "#5fe8ff";
+  ctx.lineWidth = 1;
+  for (var x = 0; x <= CONFIG.CANVAS_W; x += CONFIG.TILE) {
+    ctx.beginPath();
+    ctx.moveTo(x + 0.5, 0);
+    ctx.lineTo(x + 0.5, CONFIG.CANVAS_H);
+    ctx.stroke();
+  }
+  for (var y = 0; y <= CONFIG.CANVAS_H; y += CONFIG.TILE) {
+    ctx.beginPath();
+    ctx.moveTo(0, y + 0.5);
+    ctx.lineTo(CONFIG.CANVAS_W, y + 0.5);
+    ctx.stroke();
+  }
+  ctx.globalAlpha = 0.8;
+  ctx.fillStyle = "#a9f6ff";
+  for (var i = 0; i < 28; i++) {
+    var starX = (i * 137) % CONFIG.CANVAS_W;
+    var starY = 18 + ((i * 67) % 190);
+    ctx.fillRect(starX, starY, i % 3 === 0 ? 2 : 1, 1);
+  }
+  ctx.restore();
+};
   
 Draw.block = function (x, y, size) {  
   var ctx = Draw.ctx;  
-  ctx.fillStyle = "#ffffff";  
+  ctx.fillStyle = "#172949";
   ctx.fillRect(x, y, size, size);  
-  ctx.strokeStyle = "#000000";  
-  ctx.lineWidth = CONFIG.LINE_WIDTH;  
+  ctx.strokeStyle = "#4de1f7";
+  ctx.lineWidth = 2;
   ctx.strokeRect(x + CONFIG.LINE_WIDTH / 2,  
                  y + CONFIG.LINE_WIDTH / 2,  
                  size - CONFIG.LINE_WIDTH,  
-                 size - CONFIG.LINE_WIDTH);  
+                 size - CONFIG.LINE_WIDTH);
+  ctx.strokeStyle = "rgba(173, 249, 255, 0.18)";
+  ctx.strokeRect(x + 7, y + 7, size - 14, size - 14);
 };
 
 Draw.powerups = function () {
@@ -147,7 +183,7 @@ Draw.secretAreas = function () {
   
 Draw.spike = function (x, y, size) {  
   var ctx = Draw.ctx;  
-  ctx.fillStyle = "#000000";  
+  ctx.fillStyle = "#ff3f7f";
   ctx.beginPath();  
   ctx.moveTo(x, y + size);  
   ctx.lineTo(x + size / 2, y);  
@@ -155,14 +191,14 @@ Draw.spike = function (x, y, size) {
   ctx.closePath();  
   ctx.fill();
 
-  ctx.strokeStyle = "rgba(255, 80, 80, 0.9)";
-  ctx.lineWidth = 2;
-  ctx.strokeRect(x + 2, y + 2, size - 4, size - 4);
+  ctx.strokeStyle = "#ffd0e1";
+  ctx.lineWidth = 1;
+  ctx.stroke();
 };  
   
 Draw.finish = function (x, y, size) {  
   var ctx = Draw.ctx;  
-  ctx.fillStyle = "#000000";  
+  ctx.fillStyle = "#a9f6ff";
   ctx.fillRect(x + size / 2 - 2, y, 4, size);  
   ctx.beginPath();  
   ctx.moveTo(x + size / 2 + 2, y + 4);  
@@ -174,23 +210,33 @@ Draw.finish = function (x, y, size) {
   
 Draw.player = function () {  
   var ctx = Draw.ctx;  
-  var r = CONFIG.PLAYER_RADIUS;  
   var centerX = Player.x + CONFIG.PLAYER_SIZE / 2;  
-  var centerY = Player.y + CONFIG.PLAYER_SIZE / 2;  
-  
-  ctx.fillStyle = "#ffffff";  
-  ctx.strokeStyle = "#000000";  
-  ctx.lineWidth = CONFIG.LINE_WIDTH;  
-  ctx.beginPath();  
-  ctx.arc(centerX, centerY, r, 0, Math.PI * 2);  
-  ctx.fill();  
-  ctx.stroke();  
-  
-  var dotX = centerX + Math.cos(Player.angle) * r * CONFIG.DOT_DISTANCE;  
-  var dotY = centerY + Math.sin(Player.angle) * r * CONFIG.DOT_DISTANCE;  
-  
-  ctx.fillStyle = "#000000";  
-  ctx.beginPath();  
-  ctx.arc(dotX, dotY, 4, 0, Math.PI * 2);  
-  ctx.fill();  
+  var headY = Player.y + 6;
+  var footY = Player.y + CONFIG.PLAYER_SIZE - 1;
+
+  ctx.save();
+  ctx.lineCap = "round";
+  ctx.lineJoin = "round";
+  ctx.shadowColor = "#5fe8ff";
+  ctx.shadowBlur = Player.shieldTime > 0 ? 14 : 8;
+  ctx.strokeStyle = "#f3feff";
+  ctx.fillStyle = "#f3feff";
+  ctx.lineWidth = 3;
+
+  ctx.beginPath();
+  ctx.arc(centerX, headY, 5, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.beginPath();
+  ctx.moveTo(centerX, headY + 5);
+  ctx.lineTo(centerX, Player.y + 20);
+  ctx.moveTo(centerX, Player.y + 10);
+  ctx.lineTo(centerX - 8, Player.y + 16);
+  ctx.moveTo(centerX, Player.y + 10);
+  ctx.lineTo(centerX + 8, Player.y + 16);
+  ctx.moveTo(centerX, Player.y + 20);
+  ctx.lineTo(centerX - 7, footY);
+  ctx.moveTo(centerX, Player.y + 20);
+  ctx.lineTo(centerX + 7, footY);
+  ctx.stroke();
+  ctx.restore();
 };  
