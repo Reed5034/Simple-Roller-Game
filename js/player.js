@@ -1,5 +1,5 @@
 /* =====================================================================
-   player.js  --  THE ROLLING CIRCLE.
+  player.js  --  THE HUMANOID RUNNER.
 
    This file owns everything about the player: where it is, how fast it
    is going, and what happens when it hits something.
@@ -13,14 +13,17 @@ var Player = {
   vx: 0,           // speed left and right
   vy: 0,           // speed up and down
   onGround: false, // is the player standing on something right now?
-  angle: 0,        // how far the circle has rolled, for drawing the dot
+  angle: 0,        // retained for movement compatibility
+  runCycle: 0,     // animation phase for the arms and legs
   boostTime: 0,    // frames remaining for speed/jump boost
   shieldTime: 0,   // frames remaining for enemy shield
-  secretGlow: 0,   // frames showing secret route effect
+  airJumps: 0,     // air jumps used since the last landing
+  maxAirJumps: 0,  // extra jumps granted by the current skin/pickups
   hasGun: false,
   facing: 1,
   bullets: [],
-  shootWasDown: false
+  shootWasDown: false,
+  jumpWasDown: false
 };
 
 // Put the player back at the level's S square.
@@ -31,23 +34,40 @@ Player.reset = function () {
   Player.vy = 0;
   Player.onGround = false;
   Player.angle = 0;
+  Player.runCycle = 0;
   Player.boostTime = 0;
   Player.shieldTime = 0;
-  Player.secretGlow = 0;
+  Player.airJumps = 0;
+  Player.maxAirJumps = Player.currentSkin().powerup === "doubleJump" ? 1 : 0;
   Player.hasGun = false;
   Player.facing = 1;
   Player.bullets = [];
   Player.shootWasDown = false;
-
-  if (Level.secretAreas) {
-    for (var i = 0; i < Level.secretAreas.length; i++) {
-      Level.secretAreas[i].entered = false;
-    }
-  }
+  Player.jumpWasDown = false;
   if (Level.powerups) {
     for (var i = 0; i < Level.powerups.length; i++) {
       Level.powerups[i].collected = false;
     }
+  }
+};
+
+Player.currentSkin = function () {
+  return CONFIG.SKINS[Game.levelNumber % CONFIG.SKINS.length];
+};
+
+Player.applyPowerup = function (powerup, multiplier) {
+  if (powerup.type === "boost") {
+    Player.boostTime = Player.boostTime + 300 * multiplier;
+    Game.showMessage(multiplier > 1 ? "Speed boost doubled!" : "Speed boost collected!");
+  } else if (powerup.type === "doubleJump") {
+    Player.maxAirJumps = Player.maxAirJumps + multiplier;
+    Game.showMessage(multiplier > 1 ? "Double jump power doubled!" : "Double jump collected!");
+  } else if (powerup.type === "shield") {
+    Player.shieldTime = Player.shieldTime + 360 * multiplier;
+    Game.showMessage(multiplier > 1 ? "Shield power doubled!" : "Shield collected!");
+  } else if (powerup.type === "gun") {
+    Player.hasGun = true;
+    Game.showMessage(multiplier > 1 ? "Gun power doubled! Press X to fire." : "Gun collected! Press X to fire.");
   }
 };
 
@@ -67,32 +87,8 @@ Player.tryCollectPowerup = function () {
     if (Player.x + size > x && Player.x < x + w &&
         Player.y + size > y && Player.y < y + h) {
       powerup.collected = true;
-      if (powerup.type === "boost") {
-        Player.boostTime = 300;
-        Game.showMessage("Boost! The secret path feels much easier.");
-      } else if (powerup.type === "shield") {
-        Player.shieldTime = 360;
-        Game.showMessage("Shield! One enemy hit is blocked.");
-      } else if (powerup.type === "gun") {
-        Player.hasGun = true;
-        Game.showMessage("Gun collected! Press X to fire.");
-      }
-    }
-  }
-};
-
-Player.trySecretArea = function () {
-  if (!Level.secretAreas) { return; }
-
-  var size = CONFIG.PLAYER_SIZE;
-  for (var i = 0; i < Level.secretAreas.length; i++) {
-    var area = Level.secretAreas[i];
-    if (area.entered) { continue; }
-
-    if (Level.overlapsRect(Player.x, Player.y, size, size, area)) {
-      area.entered = true;
-      Player.secretGlow = 180;
-      Game.showMessage("Bonus route found! Optional shortcut ahead.");
+      var multiplier = powerup.type === Player.currentSkin().powerup ? 2 : 1;
+      Player.applyPowerup(powerup, multiplier);
     }
   }
 };
@@ -101,7 +97,6 @@ Player.trySecretArea = function () {
 Player.update = function () {
   var size = CONFIG.PLAYER_SIZE;
   Player.tryCollectPowerup();
-  Player.trySecretArea();
 
   if (Player.boostTime > 0) {
     Player.boostTime = Player.boostTime - 1;
@@ -109,12 +104,9 @@ Player.update = function () {
   if (Player.shieldTime > 0) {
     Player.shieldTime = Player.shieldTime - 1;
   }
-  if (Player.secretGlow > 0) {
-    Player.secretGlow = Player.secretGlow - 1;
-  }
-
   // --- 1. decide how fast to go sideways ------------------------------
-  var moveSpeed = CONFIG.MOVE_SPEED + (Player.boostTime > 0 ? 2 : 0);
+  var moveSpeed = CONFIG.MOVE_SPEED + (Player.boostTime > 0 ? 2 : 0) +
+                  (Player.currentSkin().powerup === "boost" ? 2 : 0);
   Player.vx = 0;
   if (Input.left)  { Player.vx = -moveSpeed; }
   if (Input.right) { Player.vx =  moveSpeed; }
@@ -122,9 +114,14 @@ Player.update = function () {
 
   // --- 2. jump, but only if we are standing on something --------------
   var jumpPower = CONFIG.JUMP_POWER + (Player.boostTime > 0 ? 1.5 : 0);
-  if (Input.jump && Player.onGround) {
-    Player.vy = -jumpPower;   // negative is UP
+  var jumpJustPressed = Input.jump && !Player.jumpWasDown;
+  if (jumpJustPressed && Player.onGround) {
+    Player.vy = -jumpPower;
     Player.onGround = false;
+    Player.airJumps = 0;
+  } else if (jumpJustPressed && Player.airJumps < Player.maxAirJumps) {
+    Player.vy = -jumpPower;
+    Player.airJumps = Player.airJumps + 1;
   }
 
   // --- 3. gravity pulls down every single frame -----------------------
@@ -139,7 +136,8 @@ Player.update = function () {
   for (var i = 0; i < Math.abs(Player.vx); i++) {
     if (Collide.hitsSolid(Player.x + stepX, Player.y, size, size)) { break; }
     Player.x = Player.x + stepX;
-    Player.angle = Player.angle + stepX / CONFIG.PLAYER_RADIUS; // roll it
+    Player.angle = Player.angle + stepX / CONFIG.PLAYER_RADIUS;
+    Player.runCycle = Player.runCycle + 0.35;
   }
 
   // --- 5. move up or down, one pixel at a time ------------------------
@@ -163,6 +161,7 @@ Player.update = function () {
 
   Player.updateBullets();
   Player.shootWasDown = Input.shoot;
+  Player.jumpWasDown = Input.jump;
 };
 
 Player.updateBullets = function () {

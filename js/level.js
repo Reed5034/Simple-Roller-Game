@@ -17,7 +17,6 @@ var Level = {
   name: "",
   enemies: [],      // moving patrol enemies for this level
   powerups: [],     // collectibles that give temporary buffs
-  secretAreas: [],  // hidden shortcut or bonus route rectangles
   startX: 0,        // where the player begins, in pixels
   startY: 0
 };
@@ -48,7 +47,6 @@ Level.build = function (levelNumber) {
   Level.name = level.name;
   Level.enemies = level.enemies || [];
   Level.powerups = level.powerups || [];
-  Level.secretAreas = level.secretAreas || [];
   Level.grid = [];
   Level.cols = level.pieces.length * CONFIG.PIECE_COLS;
 
@@ -102,21 +100,6 @@ Level.charAt = function (col, row) {
 Level.isSolid  = function (col, row) { return Level.charAt(col, row) === "#"; };
 Level.isSpike  = function (col, row) { return Level.charAt(col, row) === "^"; };
 Level.isFinish = function (col, row) { return Level.charAt(col, row) === "F"; };
-
-Level.overlapsRect = function (x, y, width, height, rect) {
-  if (!rect) { return false; }
-  return x + width > rect.x && x < rect.x + rect.w &&
-         y + height > rect.y && y < rect.y + rect.h;
-};
-
-Level.isInSecretArea = function (x, y, width, height) {
-  for (var i = 0; i < Level.secretAreas.length; i++) {
-    if (Level.overlapsRect(x, y, width, height, Level.secretAreas[i])) {
-      return true;
-    }
-  }
-  return false;
-};
 
 // How wide is the whole world, in pixels?
 Level.pixelWidth = function () { return Level.cols * CONFIG.TILE; };

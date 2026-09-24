@@ -34,7 +34,6 @@ Draw.everything = function () {
   ctx.translate(-Draw.cameraX, 0);  
   
   Draw.world();
-  Draw.secretAreas();
   Draw.powerups();
   Draw.bullets();
   Enemy.draw();
@@ -160,6 +159,10 @@ Draw.skinMenu = function () {
     ctx.fillStyle = selected ? skin.accent : "#d9faff";
     ctx.font = "14px monospace";
     ctx.fillText(skin.name, x + 65, 245);
+    ctx.fillStyle = "#83a7c4";
+    ctx.font = "11px monospace";
+    ctx.fillText(skin.powerup === "doubleJump" ? "DOUBLE JUMP" :
+           (skin.powerup === "boost" ? "SPEED BOOST" : skin.powerup.toUpperCase()), x + 65, 262);
   }
   Draw.menuButton("BACK", "back", 345, false);
   ctx.textAlign = "left";
@@ -305,27 +308,6 @@ Draw.bullets = function () {
   }
 };
 
-Draw.secretAreas = function () {
-  if (!Level.secretAreas) { return; }
-
-  var ctx = Draw.ctx;
-  for (var i = 0; i < Level.secretAreas.length; i++) {
-    var area = Level.secretAreas[i];
-    var undergroundY = area.y + 180;
-    var closeEnough = Math.abs(Player.x - area.x) < 140;
-    var visibleAlpha = area.entered ? 0.18 : (closeEnough ? 0.035 : 0.01);
-
-    ctx.fillStyle = area.entered ? "rgba(58, 255, 160, 0.18)" : "rgba(19, 34, 58, " + visibleAlpha + ")";
-    ctx.fillRect(area.x, undergroundY, area.w, area.h);
-
-    if (closeEnough || area.entered) {
-      ctx.strokeStyle = area.entered ? "rgba(58, 255, 160, 0.7)" : "rgba(100, 150, 255, 0.18)";
-      ctx.lineWidth = 1;
-      ctx.strokeRect(area.x, undergroundY, area.w, area.h);
-    }
-  }
-};
-  
 Draw.spike = function (x, y, size) {  
   var ctx = Draw.ctx;  
   ctx.fillStyle = "#ff3f7f";
@@ -356,9 +338,12 @@ Draw.finish = function (x, y, size) {
 Draw.player = function () {  
   var ctx = Draw.ctx;  
   var skin = CONFIG.SKINS[Game.levelNumber % CONFIG.SKINS.length];
-  var centerX = Player.x + CONFIG.PLAYER_SIZE / 2;  
-  var headY = Player.y + 6;
+  var centerX = Player.x + CONFIG.PLAYER_SIZE / 2;
+  var headY = Player.y + 7;
+  var shoulderY = Player.y + 14;
+  var hipY = Player.y + 22;
   var footY = Player.y + CONFIG.PLAYER_SIZE - 1;
+  var runAmount = Player.vx === 0 ? 0 : Math.sin(Player.runCycle) * 5;
 
   ctx.save();
   ctx.lineCap = "round";
@@ -370,24 +355,23 @@ Draw.player = function () {
   ctx.lineWidth = 3;
 
   ctx.beginPath();
-  ctx.arc(centerX, headY, 5, 0, Math.PI * 2);
+  ctx.arc(centerX, headY, 6, 0, Math.PI * 2);
   ctx.fill();
   ctx.beginPath();
-  ctx.moveTo(centerX, headY + 5);
-  ctx.lineTo(centerX, Player.y + 20);
-  ctx.moveTo(centerX, Player.y + 10);
-  ctx.lineTo(centerX - 8, Player.y + 16);
-  ctx.moveTo(centerX, Player.y + 10);
-  ctx.lineTo(centerX + 8, Player.y + 16);
-  ctx.moveTo(centerX, Player.y + 20);
-  ctx.lineTo(centerX - 7, footY);
-  ctx.moveTo(centerX, Player.y + 20);
-  ctx.lineTo(centerX + 7, footY);
+  ctx.moveTo(centerX, headY + 6);
+  ctx.lineTo(centerX, hipY);
+  ctx.moveTo(centerX, shoulderY);
+  ctx.lineTo(centerX - 7, shoulderY + runAmount);
+  ctx.moveTo(centerX, shoulderY);
+  ctx.lineTo(centerX + 7, shoulderY - runAmount);
+  ctx.moveTo(centerX, hipY);
+  ctx.lineTo(centerX - 7, footY - runAmount);
+  ctx.moveTo(centerX, hipY);
+  ctx.lineTo(centerX + 7, footY + runAmount);
   ctx.stroke();
   ctx.fillStyle = skin.accent;
   ctx.beginPath();
-  ctx.arc(centerX + Math.cos(Player.angle) * 7,
-          headY + Math.sin(Player.angle) * 7, 2.5, 0, Math.PI * 2);
+  ctx.arc(centerX, shoulderY + 4, 2.5, 0, Math.PI * 2);
   ctx.fill();
   ctx.restore();
 };  

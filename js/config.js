@@ -35,12 +35,12 @@ var CONFIG = {
   // --- rules ----------------------------------------------------------
   START_LEVEL: 0,      // which level in data/levels.json to load first
 
-  // Player looks rotate by level, so every stage has its own visual identity.
+  // Player looks and abilities rotate by level, so every stage has its own identity.
   SKINS: [
-    { name: "Neon", body: "#f3feff", accent: "#5fe8ff", shadow: "#31d0ff" },
-    { name: "Sunset", body: "#fff0d0", accent: "#ff9a3d", shadow: "#ff3f7f" },
-    { name: "Meadow", body: "#e8ffe9", accent: "#5dff9a", shadow: "#31d0ff" },
-    { name: "Violet", body: "#f2e8ff", accent: "#c58cff", shadow: "#ff70c8" },
-    { name: "Gold", body: "#fffbd1", accent: "#ffd93d", shadow: "#ff9a3d" }
+    { name: "Neon", body: "#f3feff", accent: "#5fe8ff", shadow: "#31d0ff", powerup: "doubleJump" },
+    { name: "Sunset", body: "#fff0d0", accent: "#ff9a3d", shadow: "#ff3f7f", powerup: "boost" },
+    { name: "Meadow", body: "#e8ffe9", accent: "#5dff9a", shadow: "#31d0ff", powerup: "shield" },
+    { name: "Violet", body: "#f2e8ff", accent: "#c58cff", shadow: "#ff70c8", powerup: "doubleJump" },
+    { name: "Gold", body: "#fffbd1", accent: "#ffd93d", shadow: "#ff9a3d", powerup: "gun" }
   ]
 };

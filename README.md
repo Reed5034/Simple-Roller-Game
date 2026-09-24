@@ -1,8 +1,7 @@
 # ROLLER - the base game
 
-A circle with an off-center dot rolls through a black and white world.
-It can move, jump, land on platforms, and die on spikes. It wins by
-touching the flag.
+A humanoid runner moves through a neon platforming world. It can run, jump,
+use skin abilities, and die on spikes. It wins by touching the flag.
 
 That is the whole game. Everything else is yours to add.
 
@@ -17,7 +16,12 @@ Press `Ctrl + Shift + R` to hard refresh, or you will see the old version.
 
 The opening screen has `Play`, `Levels`, and `Skins` buttons. Each level
 automatically uses a different player skin; the `Skins` screen previews the
-available looks.
+available looks and abilities. Double-jump skins can jump once in midair,
+while speed-boost skins run faster.
+
+When a regular pickup matches the current skin's powerup, its effect is
+doubled. Secret areas are no longer part of the level runtime, but regular
+powerups remain.
 
 ## Where everything lives
 
@@ -34,8 +38,8 @@ available looks.
 | the rules, the win and lose conditions, the loop | `js/game.js` |
 | the page around the game | `index.html` and `style.css` |
 
-Player skins are defined in `CONFIG.SKINS` in `js/config.js` and rotate by
-level number.
+Player skins and their powerups are defined in `CONFIG.SKINS` in
+`js/config.js` and rotate by level number.
 
 ## How levels work
 
