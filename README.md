@@ -15,6 +15,10 @@ Press `Ctrl + Shift + R` to hard refresh, or you will see the old version.
 - SPACE or UP arrow - jump
 - R - restart the level
 
+The opening screen has `Play`, `Levels`, and `Skins` buttons. Each level
+automatically uses a different player skin; the `Skins` screen previews the
+available looks.
+
 ## Where everything lives
 
 | If you want to change... | Open this file |
@@ -29,6 +33,9 @@ Press `Ctrl + Shift + R` to hard refresh, or you will see the old version.
 | how anything LOOKS | `js/draw.js` |
 | the rules, the win and lose conditions, the loop | `js/game.js` |
 | the page around the game | `index.html` and `style.css` |
+
+Player skins are defined in `CONFIG.SKINS` in `js/config.js` and rotate by
+level number.
 
 ## How levels work
 

@@ -17,7 +17,9 @@ var Game = {
   wasDownBreak: false,
   selectedLevel: 0,
   menuUpWasDown: false,
-  menuDownWasDown: false
+  menuDownWasDown: false,
+  menuPage: "main",
+  selectedSkin: 0
 };  
 
 Game.startLevel = function (levelNumber) {
@@ -35,24 +37,16 @@ Game.showMessage = function (text) {
 
 // --- ONE FRAME --------------------------------------------------------
 Game.update = function () {  
+  if (Game.mode === "MENU") {
+    Game.updateMenu();
+    return;
+  }
+
+  Game.menuPage = "main";
   var menuUpJustPressed = Input.menuUp && !Game.menuUpWasDown;
   var menuDownJustPressed = Input.menuDown && !Game.menuDownWasDown;
   Game.menuUpWasDown = Input.menuUp;
   Game.menuDownWasDown = Input.menuDown;
-
-  if (Game.mode === "MENU") {
-    if (menuUpJustPressed) {
-      Game.selectedLevel = (Game.selectedLevel + Level.levels.length - 1) % Level.levels.length;
-    }
-    if (menuDownJustPressed) {
-      Game.selectedLevel = (Game.selectedLevel + 1) % Level.levels.length;
-    }
-    if (Input.enter && !Game.enterWasDown) {
-      Game.startLevel(Game.selectedLevel);
-    }
-    Game.enterWasDown = Input.enter;
-    return;
-  }
 
   // 1. R always restarts  
   if (Input.restart) {  
@@ -108,4 +102,69 @@ Game.loop = function () {
   Draw.everything();
   window.requestAnimationFrame(Game.loop);
   
+};
+
+Game.updateMenu = function () {
+  var menuUpJustPressed = Input.menuUp && !Game.menuUpWasDown;
+  var menuDownJustPressed = Input.menuDown && !Game.menuDownWasDown;
+  var enterJustPressed = Input.enter && !Game.enterWasDown;
+  var click = Input.menuClick;
+  Input.menuClick = null;
+
+  Game.menuUpWasDown = Input.menuUp;
+  Game.menuDownWasDown = Input.menuDown;
+  Game.enterWasDown = Input.enter;
+
+  if (Game.menuPage === "main") {
+    if (click) {
+      if (Draw.menuButtonContains("play", click.x, click.y)) {
+        Game.startLevel(Game.selectedLevel);
+      } else if (Draw.menuButtonContains("levels", click.x, click.y)) {
+        Game.menuPage = "levels";
+      } else if (Draw.menuButtonContains("skins", click.x, click.y)) {
+        Game.menuPage = "skins";
+      }
+    } else if (enterJustPressed) {
+      Game.startLevel(Game.selectedLevel);
+    }
+    return;
+  }
+
+  if (Game.menuPage === "levels") {
+    if (menuUpJustPressed) {
+      Game.selectedLevel = (Game.selectedLevel + Level.levels.length - 1) % Level.levels.length;
+    }
+    if (menuDownJustPressed) {
+      Game.selectedLevel = (Game.selectedLevel + 1) % Level.levels.length;
+    }
+    if (click) {
+      var clickedLevel = Draw.menuLevelAt(click.x, click.y);
+      if (clickedLevel >= 0) {
+        Game.selectedLevel = clickedLevel;
+        Game.startLevel(clickedLevel);
+      } else if (Draw.menuButtonContains("back", click.x, click.y)) {
+        Game.menuPage = "main";
+      }
+    } else if (enterJustPressed) {
+      Game.startLevel(Game.selectedLevel);
+    }
+    return;
+  }
+
+  if (Game.menuPage === "skins") {
+    if (menuUpJustPressed) {
+      Game.selectedSkin = (Game.selectedSkin + CONFIG.SKINS.length - 1) % CONFIG.SKINS.length;
+    }
+    if (menuDownJustPressed) {
+      Game.selectedSkin = (Game.selectedSkin + 1) % CONFIG.SKINS.length;
+    }
+    if (click) {
+      var clickedSkin = Draw.menuSkinAt(click.x, click.y);
+      if (clickedSkin >= 0) {
+        Game.selectedSkin = clickedSkin;
+      } else if (Draw.menuButtonContains("back", click.x, click.y)) {
+        Game.menuPage = "main";
+      }
+    }
+  }
 };

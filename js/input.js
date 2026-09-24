@@ -15,8 +15,18 @@ var Input = {
   breakKey: false,
   menuUp: false,
   menuDown: false,
-  shoot: false
+  shoot: false,
+  menuClick: null
 };
+
+document.getElementById("game").addEventListener("click", function (event) {
+  var canvas = event.currentTarget;
+  var bounds = canvas.getBoundingClientRect();
+  Input.menuClick = {
+    x: (event.clientX - bounds.left) * canvas.width / bounds.width,
+    y: (event.clientY - bounds.top) * canvas.height / bounds.height
+  };
+});
 
 // Called whenever a key goes DOWN.
 window.addEventListener("keydown", function (event) {
