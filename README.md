@@ -13,6 +13,7 @@ Press `Ctrl + Shift + R` to hard refresh, or you will see the old version.
 - LEFT / RIGHT arrow - roll
 - SPACE or UP arrow - jump
 - R - restart the level
+- M - pause and open the menu
 
 The opening screen has `Play`, `Levels`, and `Skins` buttons. Each level
 automatically uses a different player skin; the `Skins` screen previews the

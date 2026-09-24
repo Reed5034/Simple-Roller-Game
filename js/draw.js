@@ -41,9 +41,40 @@ Draw.everything = function () {
   
   ctx.restore();  
   
+  if (Game.mode === "playing") { Draw.gameButtons(); }
+
   // 3. the menu draws on top, fixed to the screen  
   Draw.menu();  
 };  
+
+Draw.gameButtons = function () {
+  Draw.smallButton("LEVELS", "gameLevels", 620, 14, 80, 30);
+  Draw.smallButton("SKINS", "gameSkins", 710, 14, 80, 30);
+};
+
+Draw.smallButton = function (label, name, x, y, width, height) {
+  var ctx = Draw.ctx;
+  ctx.fillStyle = "rgba(23, 41, 73, 0.92)";
+  ctx.fillRect(x, y, width, height);
+  ctx.strokeStyle = "#4de1f7";
+  ctx.lineWidth = 1;
+  ctx.strokeRect(x, y, width, height);
+  ctx.fillStyle = "#f3feff";
+  ctx.font = "11px monospace";
+  ctx.textAlign = "center";
+  ctx.fillText(label, x + width / 2, y + 20);
+  ctx.textAlign = "left";
+};
+
+Draw.gameButtonContains = function (name, x, y) {
+  var bounds = {
+    gameLevels: { x: 620, y: 14, w: 80, h: 30 },
+    gameSkins: { x: 710, y: 14, w: 80, h: 30 }
+  };
+  var button = bounds[name];
+  return button && x >= button.x && x <= button.x + button.w &&
+         y >= button.y && y <= button.y + button.h;
+};
   
 // The main menu, level picker, skin gallery, win menu, and break screen.
 Draw.menu = function () {
@@ -108,7 +139,7 @@ Draw.mainMenu = function () {
   ctx.fillStyle = "#83a7c4";
   ctx.fillText("Level " + (Game.selectedLevel + 1) + " wears the " +
                CONFIG.SKINS[Game.selectedLevel % CONFIG.SKINS.length].name + " skin", CONFIG.CANVAS_W / 2, 112);
-  Draw.menuButton("PLAY", "play", 140, false);
+  Draw.menuButton(Game.paused ? "RESUME" : "PLAY", "play", 140, false);
   Draw.menuButton("LEVELS", "levels", 202, false);
   Draw.menuButton("SKINS", "skins", 264, false);
   ctx.font = "13px monospace";

@@ -19,7 +19,9 @@ var Game = {
   menuUpWasDown: false,
   menuDownWasDown: false,
   menuPage: "main",
-  selectedSkin: 0
+  selectedSkin: 0,
+  menuKeyWasDown: false,
+  paused: false
 };  
 
 Game.startLevel = function (levelNumber) {
@@ -28,6 +30,21 @@ Game.startLevel = function (levelNumber) {
   Enemy.reset();
   Player.reset();
   Game.mode = "playing";
+  Game.paused = false;
+  Game.showMessage("");
+};
+
+Game.openMenu = function (page) {
+  Game.menuPage = page;
+  Game.mode = "MENU";
+  Game.paused = true;
+  Game.selectedLevel = Game.levelNumber;
+};
+
+Game.resumeLevel = function () {
+  Game.mode = "playing";
+  Game.menuPage = "main";
+  Game.paused = false;
   Game.showMessage("");
 };
 
@@ -40,6 +57,26 @@ Game.update = function () {
   if (Game.mode === "MENU") {
     Game.updateMenu();
     return;
+  }
+
+  var menuJustPressed = Input.menuKey && !Game.menuKeyWasDown;
+  Game.menuKeyWasDown = Input.menuKey;
+  if (menuJustPressed && Game.mode === "playing") {
+    Game.openMenu("main");
+    return;
+  }
+
+  var gameClick = Input.menuClick;
+  Input.menuClick = null;
+  if (gameClick && Game.mode === "playing") {
+    if (Draw.gameButtonContains("gameLevels", gameClick.x, gameClick.y)) {
+      Game.openMenu("levels");
+      return;
+    }
+    if (Draw.gameButtonContains("gameSkins", gameClick.x, gameClick.y)) {
+      Game.openMenu("skins");
+      return;
+    }
   }
 
   Game.menuPage = "main";
@@ -118,14 +155,22 @@ Game.updateMenu = function () {
   if (Game.menuPage === "main") {
     if (click) {
       if (Draw.menuButtonContains("play", click.x, click.y)) {
-        Game.startLevel(Game.selectedLevel);
+        if (Game.paused) {
+          Game.resumeLevel();
+        } else {
+          Game.startLevel(Game.selectedLevel);
+        }
       } else if (Draw.menuButtonContains("levels", click.x, click.y)) {
         Game.menuPage = "levels";
       } else if (Draw.menuButtonContains("skins", click.x, click.y)) {
         Game.menuPage = "skins";
       }
     } else if (enterJustPressed) {
-      Game.startLevel(Game.selectedLevel);
+      if (Game.paused) {
+        Game.resumeLevel();
+      } else {
+        Game.startLevel(Game.selectedLevel);
+      }
     }
     return;
   }

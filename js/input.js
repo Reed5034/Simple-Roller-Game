@@ -16,7 +16,8 @@ var Input = {
   menuUp: false,
   menuDown: false,
   shoot: false,
-  menuClick: null
+  menuClick: null,
+  menuKey: false
 };
 
 document.getElementById("game").addEventListener("click", function (event) {
@@ -54,4 +55,5 @@ function setKey(key, isDown) {
   if (key === "Enter") { Input.enter = isDown; }  
   if (key === "b" || key === "B") { Input.breakKey = isDown; }  
   if (key === "x" || key === "X") { Input.shoot = isDown; }
+  if (key === "m" || key === "M") { Input.menuKey = isDown; }
 }
