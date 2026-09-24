@@ -16,7 +16,11 @@ var Player = {
   angle: 0,        // how far the circle has rolled, for drawing the dot
   boostTime: 0,    // frames remaining for speed/jump boost
   shieldTime: 0,   // frames remaining for enemy shield
-  secretGlow: 0    // frames showing secret route effect
+  secretGlow: 0,   // frames showing secret route effect
+  hasGun: false,
+  facing: 1,
+  bullets: [],
+  shootWasDown: false
 };
 
 // Put the player back at the level's S square.
@@ -30,6 +34,10 @@ Player.reset = function () {
   Player.boostTime = 0;
   Player.shieldTime = 0;
   Player.secretGlow = 0;
+  Player.hasGun = false;
+  Player.facing = 1;
+  Player.bullets = [];
+  Player.shootWasDown = false;
 
   if (Level.secretAreas) {
     for (var i = 0; i < Level.secretAreas.length; i++) {
@@ -65,6 +73,9 @@ Player.tryCollectPowerup = function () {
       } else if (powerup.type === "shield") {
         Player.shieldTime = 360;
         Game.showMessage("Shield! One enemy hit is blocked.");
+      } else if (powerup.type === "gun") {
+        Player.hasGun = true;
+        Game.showMessage("Gun collected! Press X to fire.");
       }
     }
   }
@@ -107,6 +118,7 @@ Player.update = function () {
   Player.vx = 0;
   if (Input.left)  { Player.vx = -moveSpeed; }
   if (Input.right) { Player.vx =  moveSpeed; }
+  if (Player.vx !== 0) { Player.facing = Player.vx > 0 ? 1 : -1; }
 
   // --- 2. jump, but only if we are standing on something --------------
   var jumpPower = CONFIG.JUMP_POWER + (Player.boostTime > 0 ? 1.5 : 0);
@@ -148,6 +160,32 @@ Player.update = function () {
 
   // --- 6. keep the player inside the left edge of the world -----------
   if (Player.x < 0) { Player.x = 0; }
+
+  Player.updateBullets();
+  Player.shootWasDown = Input.shoot;
+};
+
+Player.updateBullets = function () {
+  if (Player.hasGun && Input.shoot && !Player.shootWasDown) {
+    Player.bullets.push({
+      x: Player.x + (Player.facing > 0 ? CONFIG.PLAYER_SIZE : -6),
+      y: Player.y + 12,
+      vx: Player.facing * 10
+    });
+  }
+
+  for (var i = Player.bullets.length - 1; i >= 0; i--) {
+    var bullet = Player.bullets[i];
+    bullet.x += bullet.vx;
+    if (bullet.x < 0 || bullet.x > Level.pixelWidth() ||
+        Collide.hitsSolid(bullet.x, bullet.y, 8, 4)) {
+      Player.bullets.splice(i, 1);
+      continue;
+    }
+    if (Enemy.hitByBullet(bullet.x, bullet.y, 8, 4)) {
+      Player.bullets.splice(i, 1);
+    }
+  }
 };
 
 // Did the player just touch something deadly?

@@ -14,7 +14,10 @@ var Game = {
   levelNumber: 0,  
   beatGame: false,  
   enterWasDown: false,  
-  wasDownBreak: false  
+  wasDownBreak: false,
+  selectedLevel: 0,
+  menuUpWasDown: false,
+  menuDownWasDown: false
 };  
 
 Game.startLevel = function (levelNumber) {
@@ -32,6 +35,25 @@ Game.showMessage = function (text) {
 
 // --- ONE FRAME --------------------------------------------------------
 Game.update = function () {  
+  var menuUpJustPressed = Input.menuUp && !Game.menuUpWasDown;
+  var menuDownJustPressed = Input.menuDown && !Game.menuDownWasDown;
+  Game.menuUpWasDown = Input.menuUp;
+  Game.menuDownWasDown = Input.menuDown;
+
+  if (Game.mode === "MENU") {
+    if (menuUpJustPressed) {
+      Game.selectedLevel = (Game.selectedLevel + Level.levels.length - 1) % Level.levels.length;
+    }
+    if (menuDownJustPressed) {
+      Game.selectedLevel = (Game.selectedLevel + 1) % Level.levels.length;
+    }
+    if (Input.enter && !Game.enterWasDown) {
+      Game.startLevel(Game.selectedLevel);
+    }
+    Game.enterWasDown = Input.enter;
+    return;
+  }
+
   // 1. R always restarts  
   if (Input.restart) {  
     var targetLevel = Game.beatGame ? 0 : Game.levelNumber;  

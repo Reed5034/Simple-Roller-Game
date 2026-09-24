@@ -12,7 +12,10 @@ var Input = {
   jump: false,
   restart: false,
   enter: false,
-  breakKey: false
+  breakKey: false,
+  menuUp: false,
+  menuDown: false,
+  shoot: false
 };
 
 // Called whenever a key goes DOWN.
@@ -35,7 +38,10 @@ function setKey(key, isDown) {
   if (key === "ArrowLeft"  || key === "a" || key === "A") { Input.left  = isDown; }
   if (key === "ArrowRight" || key === "d" || key === "D") { Input.right = isDown; }
   if (key === "ArrowUp"    || key === " " || key === "w" || key === "W") { Input.jump = isDown; }
+  if (key === "ArrowUp" || key === "w" || key === "W") { Input.menuUp = isDown; }
+  if (key === "ArrowDown" || key === "s" || key === "S") { Input.menuDown = isDown; }
   if (key === "r" || key === "R") { Input.restart = isDown; }
   if (key === "Enter") { Input.enter = isDown; }  
   if (key === "b" || key === "B") { Input.breakKey = isDown; }  
+  if (key === "x" || key === "X") { Input.shoot = isDown; }
 }

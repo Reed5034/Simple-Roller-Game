@@ -59,12 +59,22 @@ Enemy.draw = function () {
 };
 
 Enemy.checkHit = function (x, y, width, height) {
-  var pad = 3;
   for (var i = 0; i < Enemy.list.length; i++) {
     var enemy = Enemy.list[i];
-    var hits = x + width > enemy.x - pad && x < enemy.x + enemy.w + pad &&
-               y + height > enemy.y - pad && y < enemy.y + enemy.h + pad;
-    if (hits) { return true; }
+    if (Collide.overlaps(x, y, width, height,
+                         enemy.x, enemy.y, enemy.w, enemy.h)) { return true; }
+  }
+  return false;
+};
+
+Enemy.hitByBullet = function (x, y, width, height) {
+  for (var i = Enemy.list.length - 1; i >= 0; i--) {
+    var enemy = Enemy.list[i];
+    if (Collide.overlaps(x, y, width, height,
+                         enemy.x, enemy.y, enemy.w, enemy.h)) {
+      Enemy.list.splice(i, 1);
+      return true;
+    }
   }
   return false;
 };

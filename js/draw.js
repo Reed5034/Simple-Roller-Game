@@ -36,6 +36,7 @@ Draw.everything = function () {
   Draw.world();
   Draw.secretAreas();
   Draw.powerups();
+  Draw.bullets();
   Enemy.draw();
   Draw.player();  
   
@@ -48,6 +49,25 @@ Draw.everything = function () {
 // the calm win menu and break screen  
 Draw.menu = function () {  
   var ctx = Draw.ctx;  
+  if (Game.mode === "MENU") {
+    ctx.fillStyle = "rgba(5, 9, 22, 0.97)";
+    ctx.fillRect(0, 0, CONFIG.CANVAS_W, CONFIG.CANVAS_H);
+    ctx.fillStyle = "#f3feff";
+    ctx.textAlign = "center";
+    ctx.font = "bold 32px monospace";
+    ctx.fillText("SELECT A LEVEL", CONFIG.CANVAS_W / 2, 70);
+    ctx.font = "18px monospace";
+    ctx.fillText("UP / DOWN to choose   ENTER to play", CONFIG.CANVAS_W / 2, 108);
+    var first = Math.max(0, Math.min(Game.selectedLevel - 3, Level.levels.length - 6));
+    for (var levelIndex = first; levelIndex < Math.min(first + 6, Level.levels.length); levelIndex++) {
+      var y = 155 + (levelIndex - first) * 34;
+      ctx.fillStyle = levelIndex === Game.selectedLevel ? "#31d0ff" : "#83a7c4";
+      ctx.fillText((levelIndex === Game.selectedLevel ? "> " : "  ") +
+                   (levelIndex + 1) + ". " + Level.levels[levelIndex].name, CONFIG.CANVAS_W / 2, y);
+    }
+    ctx.textAlign = "left";
+    return;
+  }
   if (Game.mode !== "won" && Game.mode !== "break") { return; }
 
   ctx.fillStyle = "rgba(5, 9, 22, 0.96)";
@@ -153,10 +173,18 @@ Draw.powerups = function () {
     if (item.collected) { continue; }
 
     ctx.beginPath();
-    ctx.fillStyle = item.type === "shield" ? "#ffd93d" : "#31d0ff";
+    ctx.fillStyle = item.type === "shield" ? "#ffd93d" : (item.type === "gun" ? "#ff9a3d" : "#31d0ff");
     ctx.arc(item.x + (item.w || 18) / 2, item.y + (item.h || 18) / 2, 9, 0, Math.PI * 2);
     ctx.fill();
     ctx.closePath();
+  }
+};
+
+Draw.bullets = function () {
+  var ctx = Draw.ctx;
+  for (var i = 0; i < Player.bullets.length; i++) {
+    ctx.fillStyle = "#fff0a8";
+    ctx.fillRect(Player.bullets[i].x, Player.bullets[i].y, 8, 4);
   }
 };
 

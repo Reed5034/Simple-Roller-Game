@@ -9,6 +9,11 @@
 
 var Collide = {};
 
+Collide.overlaps = function (x, y, width, height, otherX, otherY, otherWidth, otherHeight) {
+  return x < otherX + otherWidth && x + width > otherX &&
+         y < otherY + otherHeight && y + height > otherY;
+};
+
 // Which grid squares does this box overlap?
 // Returns a list of { col: , row: } objects.
 Collide.squaresUnder = function (x, y, width, height) {
@@ -39,7 +44,14 @@ Collide.hitsSolid = function (x, y, width, height) {
 Collide.hitsSpike = function (x, y, width, height) {
   var squares = Collide.squaresUnder(x, y, width, height);
   for (var i = 0; i < squares.length; i++) {
-    if (Level.isSpike(squares[i].col, squares[i].row)) { return true; }
+    if (!Level.isSpike(squares[i].col, squares[i].row)) { continue; }
+
+    var spikeX = squares[i].col * CONFIG.TILE;
+    var spikeY = squares[i].row * CONFIG.TILE + CONFIG.TILE * 0.35;
+    if (Collide.overlaps(x, y, width, height, spikeX, spikeY,
+                         CONFIG.TILE, CONFIG.TILE * 0.65)) {
+      return true;
+    }
   }
   return false;
 };
