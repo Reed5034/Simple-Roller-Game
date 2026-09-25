@@ -369,40 +369,26 @@ Draw.finish = function (x, y, size) {
 Draw.player = function () {  
   var ctx = Draw.ctx;  
   var skin = CONFIG.SKINS[Game.levelNumber % CONFIG.SKINS.length];
+  var radius = CONFIG.PLAYER_RADIUS;
   var centerX = Player.x + CONFIG.PLAYER_SIZE / 2;
-  var headY = Player.y + 7;
-  var shoulderY = Player.y + 14;
-  var hipY = Player.y + 22;
-  var footY = Player.y + CONFIG.PLAYER_SIZE - 1;
-  var runAmount = Player.vx === 0 ? 0 : Math.sin(Player.runCycle) * 5;
+  var centerY = Player.y + CONFIG.PLAYER_SIZE / 2;
+  var dotX = centerX + Math.cos(Player.angle) * radius * CONFIG.DOT_DISTANCE;
+  var dotY = centerY + Math.sin(Player.angle) * radius * CONFIG.DOT_DISTANCE;
 
   ctx.save();
-  ctx.lineCap = "round";
-  ctx.lineJoin = "round";
   ctx.shadowColor = skin.shadow;
   ctx.shadowBlur = Player.shieldTime > 0 ? 14 : 8;
   ctx.strokeStyle = skin.body;
   ctx.fillStyle = skin.body;
-  ctx.lineWidth = 3;
-
+  ctx.lineWidth = CONFIG.LINE_WIDTH;
   ctx.beginPath();
-  ctx.arc(centerX, headY, 6, 0, Math.PI * 2);
+  ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
   ctx.fill();
-  ctx.beginPath();
-  ctx.moveTo(centerX, headY + 6);
-  ctx.lineTo(centerX, hipY);
-  ctx.moveTo(centerX, shoulderY);
-  ctx.lineTo(centerX - 7, shoulderY + runAmount);
-  ctx.moveTo(centerX, shoulderY);
-  ctx.lineTo(centerX + 7, shoulderY - runAmount);
-  ctx.moveTo(centerX, hipY);
-  ctx.lineTo(centerX - 7, footY - runAmount);
-  ctx.moveTo(centerX, hipY);
-  ctx.lineTo(centerX + 7, footY + runAmount);
   ctx.stroke();
+
   ctx.fillStyle = skin.accent;
   ctx.beginPath();
-  ctx.arc(centerX, shoulderY + 4, 2.5, 0, Math.PI * 2);
+  ctx.arc(dotX, dotY, 4, 0, Math.PI * 2);
   ctx.fill();
   ctx.restore();
 };  
