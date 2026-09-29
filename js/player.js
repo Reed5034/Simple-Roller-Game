@@ -24,6 +24,7 @@ var Player = {
   bullets: [],
   shootWasDown: false,
   teleportWasDown: false,
+  teleportUsed: false,
   jumpWasDown: false
 };
 
@@ -45,6 +46,7 @@ Player.reset = function () {
   Player.bullets = [];
   Player.shootWasDown = false;
   Player.teleportWasDown = false;
+  Player.teleportUsed = false;
   Player.jumpWasDown = false;
   if (Level.powerups) {
     for (var i = 0; i < Level.powerups.length; i++) {
@@ -101,13 +103,14 @@ Player.update = function () {
   Player.tryCollectPowerup();
 
   var teleportJustPressed = Input.teleport && !Player.teleportWasDown;
-  if (Player.currentSkin().powerup === "teleport" && teleportJustPressed) {
+  if (Player.currentSkin().powerup === "teleport" && teleportJustPressed && !Player.teleportUsed) {
     Player.x = Math.max(0, Math.min(Level.pixelWidth() - size,
       Input.mouse.x + Draw.cameraX - size / 2));
     Player.y = Math.max(0, Math.min(CONFIG.CANVAS_H - size,
       Input.mouse.y - size / 2));
     Player.vx = 0;
     Player.vy = 0;
+    Player.teleportUsed = true;
   }
 
   if (Player.boostTime > 0) {
