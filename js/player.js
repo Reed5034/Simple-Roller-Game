@@ -54,7 +54,7 @@ Player.reset = function () {
 };
 
 Player.currentSkin = function () {
-  return CONFIG.SKINS[Game.levelNumber % CONFIG.SKINS.length];
+  return CONFIG.SKINS[Game.selectedSkin];
 };
 
 Player.applyPowerup = function (powerup, multiplier) {

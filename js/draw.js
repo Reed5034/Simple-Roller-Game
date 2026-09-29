@@ -137,8 +137,8 @@ Draw.mainMenu = function () {
   ctx.fillText("ROLLER", CONFIG.CANVAS_W / 2, 76);
   ctx.font = "16px monospace";
   ctx.fillStyle = "#83a7c4";
-  ctx.fillText("Level " + (Game.selectedLevel + 1) + " wears the " +
-               CONFIG.SKINS[Game.selectedLevel % CONFIG.SKINS.length].name + " skin", CONFIG.CANVAS_W / 2, 112);
+  ctx.fillText(Game.selectedSkin >= 0 ? "Selected skin: " + CONFIG.SKINS[Game.selectedSkin].name :
+               "Choose a skin before starting", CONFIG.CANVAS_W / 2, 112);
   Draw.menuButton(Game.paused ? "RESUME" : "PLAY", "play", 140, false);
   Draw.menuButton("LEVELS", "levels", 202, false);
   Draw.menuButton("SKINS", "skins", 264, false);
@@ -176,7 +176,8 @@ Draw.skinMenu = function () {
   ctx.fillText("SKINS", CONFIG.CANVAS_W / 2, 55);
   ctx.font = "14px monospace";
   ctx.fillStyle = "#83a7c4";
-  ctx.fillText("Each level automatically chooses a skin", CONFIG.CANVAS_W / 2, 82);
+  ctx.fillText(Game.pendingLevel !== null ? "Choose a skin to start Level " + (Game.pendingLevel + 1) :
+               "UP / DOWN, then ENTER to choose", CONFIG.CANVAS_W / 2, 82);
   for (var skinIndex = 0; skinIndex < CONFIG.SKINS.length; skinIndex++) {
     var skin = CONFIG.SKINS[skinIndex];
     var x = 35 + skinIndex * 150;
@@ -367,8 +368,9 @@ Draw.finish = function (x, y, size) {
 };  
   
 Draw.player = function () {  
+  if (Game.selectedSkin < 0) { return; }
   var ctx = Draw.ctx;  
-  var skin = CONFIG.SKINS[Game.levelNumber % CONFIG.SKINS.length];
+  var skin = CONFIG.SKINS[Game.selectedSkin];
   var radius = CONFIG.PLAYER_RADIUS;
   var centerX = Player.x + CONFIG.PLAYER_SIZE / 2;
   var centerY = Player.y + CONFIG.PLAYER_SIZE / 2;

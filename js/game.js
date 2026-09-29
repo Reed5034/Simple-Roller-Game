@@ -19,12 +19,22 @@ var Game = {
   menuUpWasDown: false,
   menuDownWasDown: false,
   menuPage: "main",
-  selectedSkin: 0,
+  selectedSkin: -1,
+  pendingLevel: null,
   menuKeyWasDown: false,
   paused: false
 };  
 
 Game.startLevel = function (levelNumber) {
+  if (Game.selectedSkin < 0) {
+    Game.selectedLevel = levelNumber;
+    Game.pendingLevel = levelNumber;
+    Game.menuPage = "skins";
+    Game.mode = "MENU";
+    Game.paused = false;
+    return;
+  }
+  Game.pendingLevel = null;
   Game.levelNumber = levelNumber;
   Level.build(levelNumber);
   Enemy.reset();
@@ -198,15 +208,26 @@ Game.updateMenu = function () {
 
   if (Game.menuPage === "skins") {
     if (menuUpJustPressed) {
-      Game.selectedSkin = (Game.selectedSkin + CONFIG.SKINS.length - 1) % CONFIG.SKINS.length;
+      Game.selectedSkin = Game.selectedSkin < 0 ? CONFIG.SKINS.length - 1 :
+        (Game.selectedSkin + CONFIG.SKINS.length - 1) % CONFIG.SKINS.length;
     }
     if (menuDownJustPressed) {
       Game.selectedSkin = (Game.selectedSkin + 1) % CONFIG.SKINS.length;
+    }
+    if (enterJustPressed && Game.selectedSkin >= 0) {
+      if (Game.pendingLevel !== null) {
+        Game.startLevel(Game.pendingLevel);
+      } else {
+        Game.menuPage = "main";
+      }
     }
     if (click) {
       var clickedSkin = Draw.menuSkinAt(click.x, click.y);
       if (clickedSkin >= 0) {
         Game.selectedSkin = clickedSkin;
+        if (Game.pendingLevel !== null) {
+          Game.startLevel(Game.pendingLevel);
+        }
       } else if (Draw.menuButtonContains("back", click.x, click.y)) {
         Game.menuPage = "main";
       }
