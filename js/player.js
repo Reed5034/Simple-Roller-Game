@@ -23,6 +23,7 @@ var Player = {
   facing: 1,
   bullets: [],
   shootWasDown: false,
+  teleportWasDown: false,
   jumpWasDown: false
 };
 
@@ -39,10 +40,11 @@ Player.reset = function () {
   Player.shieldTime = 0;
   Player.airJumps = 0;
   Player.maxAirJumps = Player.currentSkin().powerup === "doubleJump" ? 1 : 0;
-  Player.hasGun = false;
+  Player.hasGun = Player.currentSkin().powerup === "gun";
   Player.facing = 1;
   Player.bullets = [];
   Player.shootWasDown = false;
+  Player.teleportWasDown = false;
   Player.jumpWasDown = false;
   if (Level.powerups) {
     for (var i = 0; i < Level.powerups.length; i++) {
@@ -97,6 +99,16 @@ Player.tryCollectPowerup = function () {
 Player.update = function () {
   var size = CONFIG.PLAYER_SIZE;
   Player.tryCollectPowerup();
+
+  var teleportJustPressed = Input.teleport && !Player.teleportWasDown;
+  if (Player.currentSkin().powerup === "teleport" && teleportJustPressed) {
+    Player.x = Math.max(0, Math.min(Level.pixelWidth() - size,
+      Input.mouse.x + Draw.cameraX - size / 2));
+    Player.y = Math.max(0, Math.min(CONFIG.CANVAS_H - size,
+      Input.mouse.y - size / 2));
+    Player.vx = 0;
+    Player.vy = 0;
+  }
 
   if (Player.boostTime > 0) {
     Player.boostTime = Player.boostTime - 1;
@@ -161,6 +173,7 @@ Player.update = function () {
 
   Player.updateBullets();
   Player.shootWasDown = Input.shoot;
+  Player.teleportWasDown = Input.teleport;
   Player.jumpWasDown = Input.jump;
 };
 

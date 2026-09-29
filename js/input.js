@@ -16,6 +16,8 @@ var Input = {
   menuUp: false,
   menuDown: false,
   shoot: false,
+  teleport: false,
+  mouse: { x: 0, y: 0 },
   menuClick: null,
   menuKey: false
 };
@@ -23,7 +25,18 @@ var Input = {
 document.getElementById("game").addEventListener("click", function (event) {
   var canvas = event.currentTarget;
   var bounds = canvas.getBoundingClientRect();
-  Input.menuClick = {
+  var position = {
+    x: (event.clientX - bounds.left) * canvas.width / bounds.width,
+    y: (event.clientY - bounds.top) * canvas.height / bounds.height
+  };
+  Input.mouse = position;
+  Input.menuClick = { x: position.x, y: position.y };
+});
+
+document.getElementById("game").addEventListener("mousemove", function (event) {
+  var canvas = event.currentTarget;
+  var bounds = canvas.getBoundingClientRect();
+  Input.mouse = {
     x: (event.clientX - bounds.left) * canvas.width / bounds.width,
     y: (event.clientY - bounds.top) * canvas.height / bounds.height
   };
@@ -55,5 +68,6 @@ function setKey(key, isDown) {
   if (key === "Enter") { Input.enter = isDown; }  
   if (key === "b" || key === "B") { Input.breakKey = isDown; }  
   if (key === "x" || key === "X") { Input.shoot = isDown; }
+  if (key === "t" || key === "T") { Input.teleport = isDown; }
   if (key === "m" || key === "M") { Input.menuKey = isDown; }
 }
