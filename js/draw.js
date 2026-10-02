@@ -178,9 +178,11 @@ Draw.skinMenu = function () {
   ctx.fillStyle = "#83a7c4";
   ctx.fillText(Game.pendingLevel !== null ? "Choose a skin to start Level " + (Game.pendingLevel + 1) :
                "UP / DOWN, then ENTER to choose", CONFIG.CANVAS_W / 2, 82);
+  var visibleCount = 0;
   for (var skinIndex = 0; skinIndex < CONFIG.SKINS.length; skinIndex++) {
     var skin = CONFIG.SKINS[skinIndex];
-    var x = 35 + skinIndex * 150;
+    if (!Game.auraUnlocked && skin.name === "Aura") { continue; }
+    var x = 35 + visibleCount * 150;
     var selected = skinIndex === Game.selectedSkin;
     ctx.fillStyle = selected ? "#203d5d" : "#101a35";
     ctx.fillRect(x, 120, 130, 150);
@@ -194,23 +196,37 @@ Draw.skinMenu = function () {
     ctx.fillStyle = "#83a7c4";
     ctx.font = "11px monospace";
     ctx.fillText(skin.powerup === "doubleJump" ? "DOUBLE JUMP" :
-           (skin.powerup === "boost" ? "SPEED BOOST" : skin.powerup.toUpperCase()), x + 65, 262);
+          (skin.powerup === "boost" ? "SPEED BOOST" :
+          (skin.powerup === "all" ? "ALL ABILITIES" : skin.powerup.toUpperCase())), x + 65, 262);
+    visibleCount = visibleCount + 1;
   }
+  ctx.fillStyle = Game.auraUnlocked ? "#7ef9ff" : "#83a7c4";
+  ctx.font = "11px monospace";
+  ctx.fillText(Game.auraUnlocked ? "AURA UNLOCKED" : "ENTER ADMIN CODE BELOW TO UNLOCK AURA", CONFIG.CANVAS_W / 2, 295);
   Draw.menuButton("BACK", "back", 345, false);
   ctx.textAlign = "left";
 };
 
 Draw.skinPreview = function (centerX, centerY, skin) {
   var ctx = Draw.ctx;
+  var auraHue = (Date.now() / 10) % 360;
   ctx.save();
   ctx.shadowColor = skin.shadow;
   ctx.shadowBlur = 12;
-  ctx.fillStyle = skin.body;
+  if (skin.powerup === "all") {
+    ctx.fillStyle = "hsl(" + auraHue + ", 90%, 70%)";
+  } else {
+    ctx.fillStyle = skin.body;
+  }
   ctx.beginPath();
   ctx.arc(centerX, centerY, 25, 0, Math.PI * 2);
   ctx.fill();
   ctx.shadowBlur = 0;
-  ctx.fillStyle = skin.accent;
+  if (skin.powerup === "all") {
+    ctx.fillStyle = "hsl(" + ((auraHue + 30) % 360) + ", 90%, 72%)";
+  } else {
+    ctx.fillStyle = skin.accent;
+  }
   ctx.beginPath();
   ctx.arc(centerX + 9, centerY - 8, 5, 0, Math.PI * 2);
   ctx.fill();
@@ -239,9 +255,13 @@ Draw.menuLevelAt = function (x, y) {
 };
 
 Draw.menuSkinAt = function (x, y) {
+  var visibleCount = 0;
   for (var skinIndex = 0; skinIndex < CONFIG.SKINS.length; skinIndex++) {
-    var skinX = 35 + skinIndex * 150;
+    var skin = CONFIG.SKINS[skinIndex];
+    if (!Game.auraUnlocked && skin.name === "Aura") { continue; }
+    var skinX = 35 + visibleCount * 150;
     if (x >= skinX && x <= skinX + 130 && y >= 120 && y <= 270) { return skinIndex; }
+    visibleCount = visibleCount + 1;
   }
   return -1;
 };
@@ -376,19 +396,29 @@ Draw.player = function () {
   var centerY = Player.y + CONFIG.PLAYER_SIZE / 2;
   var dotX = centerX + Math.cos(Player.angle) * radius * CONFIG.DOT_DISTANCE;
   var dotY = centerY + Math.sin(Player.angle) * radius * CONFIG.DOT_DISTANCE;
+  var hue = (Date.now() / 12) % 360;
 
   ctx.save();
   ctx.shadowColor = skin.shadow;
-  ctx.shadowBlur = Player.shieldTime > 0 ? 14 : 8;
-  ctx.strokeStyle = skin.body;
-  ctx.fillStyle = skin.body;
+  ctx.shadowBlur = (Player.shieldTime > 0 || Player.currentSkin().powerup === "shield" || Player.currentSkin().powerup === "all") ? 14 : 8;
+  if (skin.powerup === "all") {
+    ctx.strokeStyle = "hsl(" + ((hue + 25) % 360) + ", 90%, 72%)";
+    ctx.fillStyle = "hsl(" + hue + ", 90%, 76%)";
+  } else {
+    ctx.strokeStyle = skin.body;
+    ctx.fillStyle = skin.body;
+  }
   ctx.lineWidth = CONFIG.LINE_WIDTH;
   ctx.beginPath();
   ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
   ctx.fill();
   ctx.stroke();
 
-  ctx.fillStyle = skin.accent;
+  if (skin.powerup === "all") {
+    ctx.fillStyle = "hsl(" + ((hue + 90) % 360) + ", 90%, 74%)";
+  } else {
+    ctx.fillStyle = skin.accent;
+  }
   ctx.beginPath();
   ctx.arc(dotX, dotY, 4, 0, Math.PI * 2);
   ctx.fill();

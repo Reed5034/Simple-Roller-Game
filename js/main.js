@@ -10,6 +10,23 @@
 
 Draw.setup();
 
+var adminCodeInput = document.getElementById("admin-code");
+var unlockAuraButton = document.getElementById("unlock-aura");
+
+if (adminCodeInput && unlockAuraButton) {
+  unlockAuraButton.addEventListener("click", function () {
+    Game.unlockAura(adminCodeInput.value);
+  });
+
+  adminCodeInput.addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
+      Game.unlockAura(adminCodeInput.value);
+    }
+  });
+}
+
+Game.syncAdminBar();
+
 Level.loadData(function () {
   Game.selectedLevel = CONFIG.START_LEVEL;
   Game.loop();

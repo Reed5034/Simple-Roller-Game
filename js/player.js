@@ -40,8 +40,8 @@ Player.reset = function () {
   Player.boostTime = 0;
   Player.shieldTime = 0;
   Player.airJumps = 0;
-  Player.maxAirJumps = Player.currentSkin().powerup === "doubleJump" ? 1 : 0;
-  Player.hasGun = Player.currentSkin().powerup === "gun";
+  Player.maxAirJumps = Player.hasPower("doubleJump") ? 1 : 0;
+  Player.hasGun = Player.hasPower("gun");
   Player.facing = 1;
   Player.bullets = [];
   Player.shootWasDown = false;
@@ -57,6 +57,16 @@ Player.reset = function () {
 
 Player.currentSkin = function () {
   return CONFIG.SKINS[Game.selectedSkin];
+};
+
+Player.hasPower = function (powerName) {
+  var skin = Player.currentSkin();
+  if (!skin) { return false; }
+  if (skin.powerup === powerName) { return true; }
+  if (skin.powerup !== "all") { return false; }
+  return powerName === "doubleJump" || powerName === "boost" ||
+         powerName === "shield" || powerName === "gun" ||
+         powerName === "teleport";
 };
 
 Player.applyPowerup = function (powerup, multiplier) {
@@ -91,7 +101,11 @@ Player.tryCollectPowerup = function () {
     if (Player.x + size > x && Player.x < x + w &&
         Player.y + size > y && Player.y < y + h) {
       powerup.collected = true;
-      var multiplier = powerup.type === Player.currentSkin().powerup ? 2 : 1;
+      var samePower = powerup.type === Player.currentSkin().powerup;
+      if (Player.currentSkin().powerup === "all") {
+        samePower = true;
+      }
+      var multiplier = samePower ? 2 : 1;
       Player.applyPowerup(powerup, multiplier);
     }
   }
@@ -103,7 +117,7 @@ Player.update = function () {
   Player.tryCollectPowerup();
 
   var teleportJustPressed = Input.teleport && !Player.teleportWasDown;
-  if (Player.currentSkin().powerup === "teleport" && teleportJustPressed && !Player.teleportUsed) {
+  if (Player.hasPower("teleport") && teleportJustPressed && !Player.teleportUsed) {
     Player.x = Math.max(0, Math.min(Level.pixelWidth() - size,
       Input.mouse.x + Draw.cameraX - size / 2));
     Player.y = Math.max(0, Math.min(CONFIG.CANVAS_H - size,
@@ -121,7 +135,7 @@ Player.update = function () {
   }
   // --- 1. decide how fast to go sideways ------------------------------
   var moveSpeed = CONFIG.MOVE_SPEED + (Player.boostTime > 0 ? 2 : 0) +
-                  (Player.currentSkin().powerup === "boost" ? 2 : 0);
+                  (Player.hasPower("boost") ? 2 : 0);
   Player.vx = 0;
   if (Input.left)  { Player.vx = -moveSpeed; }
   if (Input.right) { Player.vx =  moveSpeed; }
@@ -208,6 +222,9 @@ Player.isDead = function () {
   var size = CONFIG.PLAYER_SIZE;
   if (Collide.hitsSpike(Player.x, Player.y, size, size)) { return true; }
   if (Enemy.checkHit(Player.x, Player.y, size, size)) {
+    if (Player.hasPower("shield")) {
+      return false;
+    }
     if (Player.shieldTime > 0) {
       Player.shieldTime = 0;
       return false;

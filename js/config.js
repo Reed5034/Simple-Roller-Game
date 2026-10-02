@@ -41,6 +41,7 @@ var CONFIG = {
     { name: "Sunset", body: "#fff0d0", accent: "#ff9a3d", shadow: "#ff3f7f", powerup: "boost" },
     { name: "Meadow", body: "#e8ffe9", accent: "#5dff9a", shadow: "#31d0ff", powerup: "shield" },
     { name: "Violet", body: "#f2e8ff", accent: "#c58cff", shadow: "#ff70c8", powerup: "teleport" },
-    { name: "Gold", body: "#fffbd1", accent: "#ffd93d", shadow: "#ff9a3d", powerup: "gun" }
+    { name: "Gold", body: "#fffbd1", accent: "#ffd93d", shadow: "#ff9a3d", powerup: "gun" },
+    { name: "Aura", body: "#f6f7ff", accent: "#9bf6ff", shadow: "#ba86ff", powerup: "all" }
   ]
 };

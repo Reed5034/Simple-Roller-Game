@@ -41,6 +41,56 @@ canvas {
   text-shadow: 0 0 10px rgba(255, 63, 127, 0.55);
 }
 
+.admin-bar {
+  width: min(520px, calc(100% - 36px));
+  margin: 14px auto 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border: 2px solid #4de1f7;
+  background: rgba(17, 27, 46, 0.9);
+  box-shadow: 0 0 18px rgba(77, 225, 247, 0.15);
+}
+
+.admin-bar.hidden {
+  display: none;
+}
+
+.admin-bar label {
+  color: #d9faff;
+  font-size: 12px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.admin-bar input {
+  flex: 1;
+  min-width: 0;
+  background: #07101d;
+  border: 1px solid #4de1f7;
+  color: #f3feff;
+  padding: 8px 10px;
+  font: 14px monospace;
+  text-transform: uppercase;
+}
+
+.admin-bar button {
+  background: linear-gradient(180deg, #31d0ff, #1a8be0);
+  border: 1px solid #bff7ff;
+  color: #050916;
+  font: bold 12px monospace;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.admin-bar button:disabled {
+  opacity: 0.7;
+  cursor: default;
+}
+
 .controls {
   color: #83a7c4;
   font-size: 12px;

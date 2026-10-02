@@ -22,7 +22,9 @@ var Game = {
   selectedSkin: -1,
   pendingLevel: null,
   menuKeyWasDown: false,
-  paused: false
+  paused: false,
+  auraUnlocked: false,
+  adminCode: "1234"
 };  
 
 Game.startLevel = function (levelNumber) {
@@ -49,6 +51,7 @@ Game.openMenu = function (page) {
   Game.mode = "MENU";
   Game.paused = true;
   Game.selectedLevel = Game.levelNumber;
+  Game.syncAdminBar();
 };
 
 Game.resumeLevel = function () {
@@ -60,6 +63,42 @@ Game.resumeLevel = function () {
 
 Game.showMessage = function (text) {
   document.getElementById("message").textContent = text;
+};
+
+Game.syncAdminBar = function () {
+  var bar = document.getElementById("admin-bar");
+  var input = document.getElementById("admin-code");
+  var button = document.getElementById("unlock-aura");
+  if (!bar || !input || !button) { return; }
+  var shouldShow = Game.menuPage === "skins";
+  bar.classList.toggle("hidden", !shouldShow);
+  if (Game.auraUnlocked) {
+    input.value = "UNLOCKED";
+    input.disabled = true;
+    button.disabled = true;
+    button.textContent = "Unlocked";
+  } else {
+    input.disabled = false;
+    button.disabled = false;
+    button.textContent = "Unlock Aura";
+    if (input.value === "UNLOCKED") { input.value = ""; }
+  }
+};
+
+Game.unlockAura = function (code) {
+  var entered = String(code || "").trim();
+  if (entered !== Game.adminCode) {
+    Game.showMessage("Admin code rejected.");
+    return false;
+  }
+  Game.auraUnlocked = true;
+  var auraIndex = CONFIG.SKINS.findIndex(function (skin) { return skin.name === "Aura"; });
+  if (auraIndex >= 0 && Game.selectedSkin < 0) {
+    Game.selectedSkin = auraIndex;
+  }
+  Game.syncAdminBar();
+  Game.showMessage("Aura unlocked.");
+  return true;
 };
 
 // --- ONE FRAME --------------------------------------------------------
@@ -163,6 +202,7 @@ Game.updateMenu = function () {
   Game.enterWasDown = Input.enter;
 
   if (Game.menuPage === "main") {
+    Game.syncAdminBar();
     if (click) {
       if (Draw.menuButtonContains("play", click.x, click.y)) {
         if (Game.paused) {
@@ -182,10 +222,12 @@ Game.updateMenu = function () {
         Game.startLevel(Game.selectedLevel);
       }
     }
+    Game.syncAdminBar();
     return;
   }
 
   if (Game.menuPage === "levels") {
+    Game.syncAdminBar();
     if (menuUpJustPressed) {
       Game.selectedLevel = (Game.selectedLevel + Level.levels.length - 1) % Level.levels.length;
     }
@@ -203,16 +245,34 @@ Game.updateMenu = function () {
     } else if (enterJustPressed) {
       Game.startLevel(Game.selectedLevel);
     }
+    Game.syncAdminBar();
     return;
   }
 
   if (Game.menuPage === "skins") {
+    Game.syncAdminBar();
+    var visibleSkins = [];
+    for (var i = 0; i < CONFIG.SKINS.length; i++) {
+      if (Game.auraUnlocked || CONFIG.SKINS[i].name !== "Aura") {
+        visibleSkins.push(i);
+      }
+    }
+    if (visibleSkins.length === 0) {
+      Game.syncAdminBar();
+      return;
+    }
     if (menuUpJustPressed) {
-      Game.selectedSkin = Game.selectedSkin < 0 ? CONFIG.SKINS.length - 1 :
-        (Game.selectedSkin + CONFIG.SKINS.length - 1) % CONFIG.SKINS.length;
+      var currentVisibleIndex = visibleSkins.indexOf(Game.selectedSkin);
+      var nextIndex = currentVisibleIndex >= 0 ? currentVisibleIndex - 1 : visibleSkins.length - 1;
+      Game.selectedSkin = visibleSkins[(nextIndex + visibleSkins.length) % visibleSkins.length];
     }
     if (menuDownJustPressed) {
-      Game.selectedSkin = (Game.selectedSkin + 1) % CONFIG.SKINS.length;
+      var currentVisibleIndex = visibleSkins.indexOf(Game.selectedSkin);
+      var nextIndex = currentVisibleIndex >= 0 ? currentVisibleIndex + 1 : 0;
+      Game.selectedSkin = visibleSkins[nextIndex % visibleSkins.length];
+    }
+    if (Game.selectedSkin < 0 || Game.selectedSkin >= CONFIG.SKINS.length || (!Game.auraUnlocked && CONFIG.SKINS[Game.selectedSkin].name === "Aura")) {
+      Game.selectedSkin = visibleSkins[0];
     }
     if (enterJustPressed && Game.selectedSkin >= 0) {
       if (Game.pendingLevel !== null) {
@@ -232,5 +292,6 @@ Game.updateMenu = function () {
         Game.menuPage = "main";
       }
     }
+    Game.syncAdminBar();
   }
 };
